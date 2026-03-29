@@ -1,0 +1,52 @@
+# ================================
+# Backend (Python / FastAPI)
+# ================================
+*/.venv/
+*/venv/
+*/env/
+*/__pycache__/
+*/**/__pycache__/
+*/*.py[cod]
+*/*.pyo
+*/*.egg-info/
+*/dist/
+*/build/
+*/.eggs/
+*/.pytest_cache/
+*/.coverage
+*/htmlcov/
+*/**/.env
+*/**/.env.*
+
+# ================================
+# Frontend (React / Vite)
+# ================================
+*/node_modules/
+*/dist-ssr/
+*/.vite/
+*/.cache/
+*/*.local
+
+# ================================
+# Logs
+# ================================
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ================================
+# OS
+# ================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ================================
+# IDE
+# ================================
+.vscode/
+.idea/
+*.swp
+*.swo
