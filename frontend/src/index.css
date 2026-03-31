@@ -1,0 +1,87 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@theme {
+  /* 폰트 정의 */
+  --font-sans: "Pretendard Variable", sans-serif;
+
+  /* 메인 컬러 및 배경 사양 */
+  --color-primary: #FB923C;
+  --color-surface: #0F172A;
+  --color-card: #1E293B;
+  --color-black: #000000;
+
+  /* Slate 팔레트 전체 등록 */
+  --color-slate-50: #F8FAFC;
+  --color-slate-100: #F1F5F9;
+  --color-slate-200: #E2E8F0;
+  --color-slate-300: #CBD5E1;
+  --color-slate-400: #94A3B8;
+  --color-slate-500: #64748B;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1E293B;
+  --color-slate-900: #0F172A;
+  --color-slate-950: #020617;
+
+  /* 효과 관련 변수 */
+  --shadow-nav: 0 20px 50px rgba(0, 0, 0, 0.5);
+  --shadow-fab: 0 8px 24px rgba(251, 146, 60, 0.5);
+  --blur-nav: 12px;
+  --blur-scrolled: 24px;
+
+  /* 공통 Radius */
+  --radius-card: 0.75rem;
+
+  /* 타이포그래피 시스템 (Tailwind v4 유틸리티) */
+  --text-h1: 4.5rem;
+  --text-h1--line-height: 4.5rem;
+  --text-h1--font-weight: 700;
+
+  --text-h2: 3rem;
+  --text-h2--line-height: 3rem;
+  --text-h2--font-weight: 600;
+
+  --text-h3: 2rem;
+  --text-h3--line-height: 2.25rem;
+  --text-h3--font-weight: 700;
+
+  --text-body-18: 1.125rem;
+  --text-body-18--line-height: 1.75rem;
+  --text-body-18--font-weight: 500;
+
+  --text-body-16: 1rem;
+  --text-body-16--line-height: 1.5rem;
+  --text-body-16--font-weight: 500;
+
+  --text-caption: 0.875rem;
+  --text-caption--line-height: 1.25rem;
+  --text-caption--font-weight: 500;
+
+  --text-link: 0.75rem;
+  --text-link--line-height: 1rem;
+  --text-link--font-weight: 500;
+}
+
+@layer base {
+  body {
+    @apply bg-surface text-slate-300 font-sans;
+    letter-spacing: 0;
+    margin: 0;
+  }
+}
+
+@layer utilities {
+  /* 카드 호버 공통 효과 */
+  .hover-card-zoom {
+    @apply transition-transform duration-300 hover:scale-105;
+  }
+
+  /* 버튼 시스템: Hover Lighten 10%, Active Lighten 25% */
+  .btn-interaction {
+    @apply transition-all hover:brightness-110 active:brightness-125;
+  }
+}
