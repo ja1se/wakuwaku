@@ -40,8 +40,8 @@ return (
       className={twMerge(
         'fixed top-0 inset-x-0 z-50 transition-all duration-300',
         scrolled
-          ? 'bg-surface/80 backdrop-blur-[var(--blur-scrolled)] shadow-nav border-b border-white/5'
-          : 'bg-transparent backdrop-blur-[var(--blur-nav)]'
+          ? 'bg-transparent backdrop-blur-[var(--blur-nav)]'
+          : 'bg-surface/80 backdrop-blur-[var(--blur-scrolled)] shadow-nav'
       )}
     >
       <div className="flex max-w-7xl w-full px-6 py-4 justify-between items-center mx-auto">
