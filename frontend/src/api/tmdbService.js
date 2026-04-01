@@ -7,19 +7,24 @@ export const TMDB_IMAGE_BASE = {
 };
 
 export const tmdbService = {
-  // 1. Discover & Lists (명세 2.A)
-  getPopular: () => tmdbApi.get('/tv/popular'),
-  getOnAir: () => tmdbApi.get('/tv/on_the_air'),
+  // 1. Discover & Lists
+  getPopular: () => tmdbApi.get('/discover/tv', { 
+    params: { sort_by: 'popularity.desc' } 
+  }),
+  getOnAir: () => tmdbApi.get('/discover/tv', { 
+    params: { sort_by: 'first_air_date.desc' } 
+  }),
   
-  // 장르별 탐색 (Suspense: 80,96 / Healing: 35)
-  getDiscover: (genreIds) => tmdbApi.get('/discover/tv', { 
-    params: { with_genres: genreIds } 
+  // 2. 장르별 탐색1 (Suspense,80)
+  getSuspense: () => tmdbApi.get('/discover/tv', { 
+    params: { with_genres: 80 } 
+  }),
+  // 3. 장르별 탐색2 (Mystery,96)
+  getMystery: () => tmdbApi.get('/discover/tv', { 
+    params: { with_genres: 96 } 
   }),
 
-  // 연관 콘텐츠
-  getSimilar: (id) => tmdbApi.get(`/tv/${id}/similar`),
-
-  // 2. Gourmet/Cooking (명세 2.B 공식 ID 리스트)
+  // 4. 장르별 탐색3 (Gourmet/Cooking)
   getGourmet: async () => {
     const ids = [
       55582, // 고독한 미식가
@@ -32,7 +37,7 @@ export const tmdbService = {
     return Promise.all(requests);
   },
 
-  // 3. Detail & Episode Strategy (명세 3)
+  // 5. Detail & Episode Strategy
   getDetails: (id) => tmdbApi.get(`/tv/${id}`),
   getCredits: (id) => tmdbApi.get(`/tv/${id}/credits`),
   getVideos: (id) => tmdbApi.get(`/tv/${id}/videos`),
@@ -40,6 +45,9 @@ export const tmdbService = {
   // 에피소드 데이터 (Lazy Loading 전략)
   getEpisodes: (id, seasonNum) => tmdbApi.get(`/tv/${id}/season/${seasonNum}`),
 
-  // 리뷰 (명세 3)
+  // 리뷰
   getReviews: (id) => tmdbApi.get(`/tv/${id}/reviews`),
+
+  // 연관 콘텐츠
+  getSimilar: (id) => tmdbApi.get(`/tv/${id}/similar`),
 };

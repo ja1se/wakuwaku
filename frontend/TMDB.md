@@ -12,10 +12,10 @@
 ### A. Discover & Lists (Main Rows)
 | Category | Endpoint | Parameters / Strategy |
 | :--- | :--- | :--- |
-| **Popular** | `/tv/popular` | Standard JP Filter |
-| **On Air** | `/tv/on_the_air` | Standard JP Filter |
-| **Suspense/Mystery** | `/discover/tv` | `with_genres=80,96` |
-| **Healing/Life** | `/discover/tv` | `with_genres=35` |
+| **Popular** | `/discover/tv` | `sort_by=popularity.desc` |
+| **On Air** | `/discover/tv` | `sort_by=first_air_date.desc` |
+| **Suspense** | `/discover/tv` | `with_genres=80` |
+| **Mystery** | `/discover/tv` | `with_genres=96` |
 | **Similar Contents** | `/tv/{id}/similar` | Contextual Recommendation |
 
 ### B. Gourmet/Cooking (Manual Curation)

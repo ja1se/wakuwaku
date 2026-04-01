@@ -30,14 +30,15 @@ const MovieDetail = () => {
           tmdbService.getSimilar(id),
         ]);
 
-        setDrama(detailRes.data);
-        setCredits(creditsRes.data);
-        setReviews(reviewsRes.data.results);
-        setSimilar(similarRes.data.results);
+        // axios interceptor가 response.data를 반환하므로 response가 곧 데이터임
+        setDrama(detailRes);
+        setCredits(creditsRes);
+        setReviews(reviewsRes.results || []);
+        setSimilar(similarRes.results || []);
         
         // 초기 에피소드 데이터 (시즌 1) 로드
         const episodeRes = await tmdbService.getEpisodes(id, 1);
-        setEpisodes(episodeRes.data.episodes);
+        setEpisodes(episodeRes.episodes || []);
       } catch (error) {
         console.error('데이터 로드 실패:', error);
       } finally {
@@ -52,7 +53,7 @@ const MovieDetail = () => {
     try {
       setActiveSeason(seasonNum);
       const res = await tmdbService.getEpisodes(id, seasonNum);
-      setEpisodes(res.data.episodes);
+      setEpisodes(res.episodes || []);
       setCurrentPage(1); // 시즌 변경 시 페이지 초기화
     } catch (error) {
       console.error('에피소드 로드 실패:', error);

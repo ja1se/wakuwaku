@@ -2,21 +2,30 @@ import React, { useEffect, useState } from 'react';
 import Card from './Card';
 import { twMerge } from 'tailwind-merge';
 
-const ContentRow = ({ title, fetchFunction, type = 'portrait', showLogo = false, className }) => {
-  const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(true);
+const ContentRow = ({ title, fetchFunction, movies: initialMovies, type = 'portrait', showLogo = false, className }) => {
+  const [movies, setMovies] = useState(initialMovies || []);
+  const [loading, setLoading] = useState(!initialMovies);
 
   useEffect(() => {
+    if (initialMovies) {
+      const filteredData = initialMovies.filter(m => !m.genre_ids?.includes(16));
+      setMovies(filteredData);
+      setLoading(false);
+      return;
+    }
+
+    if (!fetchFunction) return;
+
     const fetchData = async () => {
       try {
         setLoading(true);
         const response = await fetchFunction();
-        console.log("데이터 확인:", response);
-        
-        // Gourmet(배열)과 일반 API(data.results) 구조 모두 대응
+
+        // axios interceptor가 response.data를 반환하므로 response가 곧 데이터임
+        // Gourmet(배열)과 일반 API(results) 구조 모두 대응
         let data = Array.isArray(response) 
-          ? response.map(res => res.data) 
-          : response.data.results;
+          ? response 
+          : (response.results || response.data?.results || []);
 
         // 명세 1: 애니메이션(장르 ID 16) 제외 필터링
         const filteredData = data.filter(m => !m.genre_ids?.includes(16));
@@ -29,14 +38,10 @@ const ContentRow = ({ title, fetchFunction, type = 'portrait', showLogo = false,
     };
 
     fetchData();
-  }, [fetchFunction, title]);
+  }, [fetchFunction, initialMovies, title]);
 
   if (loading) return <div className="px-14 py-10 text-slate-500 animate-pulse">데이터를 불러오는 중...</div>;
   if (!movies || movies.length === 0) return null;
-
-  // 1. Portrait Row (기본형: 피그마 40:3533)
-  // 2. Landscape Row (와이드형: 피그마 40:3908)
-  // 3. Episode Row (에피소드형: 피그마 40:4214)
 
   return (
     <section className={twMerge("px-14 py-8", className)}>
@@ -49,7 +54,7 @@ const ContentRow = ({ title, fetchFunction, type = 'portrait', showLogo = false,
           {title}
         </h2>
       </div>
-      
+
       {/* 가로 스크롤 영역 */}
       <div 
         className={twMerge(

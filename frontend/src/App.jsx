@@ -1,25 +1,59 @@
-import React, { useState } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router'
-import Nav from './components/Nav'
-import Home from './components/Home'
-import MovieDetail from './components/MovieDetail'
-import ErrorPage from './components/ErrorPage'
-import Footer from './components/Footer'
-import Chatbot from './components/Chatbot/Chatbot'
-import { FAB } from './components/Ui'
-import { faMessage } from '@fortawesome/free-solid-svg-icons'
+import React, { useState, useEffect } from 'react';
+import { Outlet } from 'react-router';
+import { tmdbService } from './api/tmdbService';
+import Nav from './components/Nav';
+import Footer from './components/Footer';
+import Chatbot from './components/Chatbot/Chatbot';
+import { FAB } from './components/Ui';
+import { faMessage } from '@fortawesome/free-solid-svg-icons';
 
 export function App() {
+  const [popular, setPopular] = useState([]);
+  const [onAir, setOnAir] = useState([]);
+  const [suspense, setSuspense] = useState([]);
+  const [mystery, setMystery] = useState([]);
+  const [gourmet, setGourmet] = useState([]);
   const [isChatOpen, setIsChatOpen] = useState(false);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [
+          popularRes,
+          onAirRes,
+          suspenseRes,
+          mysteryRes,
+          gourmetRes
+        ] = await Promise.all([
+          tmdbService.getPopular(),
+          tmdbService.getOnAir(),
+          tmdbService.getSuspense(),
+          tmdbService.getMystery(),
+          tmdbService.getGourmet()
+        ]);
+
+        setPopular(popularRes.results || []);
+        setOnAir(onAirRes.results || []);
+        setSuspense(suspenseRes.results || []);
+        setMystery(mysteryRes.results || []);
+        
+        // gourmetRes is an array of data objects because of the axios interceptor
+        setGourmet(gourmetRes || []);
+
+      } catch (error) {
+        console.error('Failed to fetch TMDB data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
-    <BrowserRouter>
+    <>
       <Nav />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/drama/:id" element={<MovieDetail />} />
-        <Route path="*" element={<ErrorPage />} />
-      </Routes>
+      <main>
+        <Outlet context={{ popular, onAir, suspense, mystery, gourmet }} />
+      </main>
       <Footer />
 
       {/* Chatbot Toggle Button */}
@@ -31,6 +65,6 @@ export function App() {
 
       {/* Chatbot Window */}
       {isChatOpen && <Chatbot onClose={() => setIsChatOpen(false)} />}
-    </BrowserRouter>
-  )
+    </>
+  );
 }

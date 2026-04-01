@@ -1,10 +1,9 @@
 // frontend/src/components/Home.jsx
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useOutletContext, useNavigate } from 'react-router';
 import { tmdbService } from '../api/tmdbService';
 import ContentRow from './ContentRow';
 
-const Hero = () => {
+const Hero = ({ popularId }) => {
   const navigate = useNavigate();
 
   return (
@@ -36,13 +35,13 @@ const Hero = () => {
         </p>
         <div className="flex gap-4">
           <button 
-            onClick={() => navigate('/drama/55582')}
+            onClick={() => navigate(`/movie/${popularId}`)}
             className="bg-orange-400 text-slate-950 px-10 py-4 rounded-lg font-bold text-lg hover:scale-105 active:scale-95 transition-all shadow-lg shadow-orange-400/20"
           >
             지금 시청하기
           </button>
           <button 
-            onClick={() => navigate('/drama/55582')}
+            onClick={() => navigate(`/movie/${popularId}`)}
             className="bg-slate-900/60 backdrop-blur-md text-white px-10 py-4 rounded-lg font-bold text-lg hover:bg-slate-800/80 transition-all border border-slate-700/50"
           >
             상세 정보
@@ -54,44 +53,49 @@ const Hero = () => {
 };
 
 export default function Home() {
+  const { popular, onAir, suspense, mystery, gourmet } = useOutletContext();
+  
+  // Hero section ID: first item of popular or fallback
+  const heroId = popular?.[0]?.id || '55582';
+
   return (
     <main className="bg-[#020617] min-h-screen text-slate-300 font-sans selection:bg-orange-400 selection:text-slate-950">
-      <Hero />
-      
+      <Hero popularId={heroId} />
+
       <div className="relative z-20 -mt-24 space-y-4 pb-32">
-        {/* Landscape Row: 따끈따끈 신작 (WAKUWAKU 로고 포함) */}
+        {/* Landscape Row: 요즘 뜨는 인기작 (WAKUWAKU 로고 포함) */}
         <ContentRow 
-          title="따끈따끈 신작" 
-          fetchFunction={tmdbService.getPopular} 
+          title="요즘 뜨는 인기작" 
+          movies={popular}
           type="landscape"
           showLogo={true}
         />
 
-        {/* Portrait Row: 요즘 뜨는 인기작 */}
+        {/* Portrait Row: 오늘 방영 작품 */}
         <ContentRow 
-          title="요즘 뜨는 인기작" 
-          fetchFunction={tmdbService.getOnAir} 
-          type="portrait"
-        />
-        
-        {/* Portrait Row: 지친 마음을 달래줄 치유물 */}
-        <ContentRow 
-          title="지친 마음을 달래줄 치유물" 
-          fetchFunction={() => tmdbService.getDiscover(35)} 
+          title="오늘 방영 작품" 
+          movies={onAir}
           type="portrait"
         />
 
         {/* Portrait Row: 심장을 쫄깃하게 하는 서스펜스 */}
         <ContentRow 
           title="심장을 쫄깃하게 하는 서스펜스" 
-          fetchFunction={() => tmdbService.getDiscover('80,96')} 
+          movies={suspense}
           type="portrait"
         />
 
-        {/* Portrait Row: 미식가들을 위한 고메 리스트 */}
+        {/* Portrait Row: 베일에 싸인 미스터리 */}
+        <ContentRow 
+          title="베일에 싸인 미스터리" 
+          movies={mystery}
+          type="portrait"
+        />
+
+        {/* Portrait Row: 맛있는 이야기, 고메 시리즈 */}
         <ContentRow 
           title="맛있는 이야기, 고메 시리즈" 
-          fetchFunction={tmdbService.getGourmet} 
+          movies={gourmet}
           type="portrait"
         />
       </div>

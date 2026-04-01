@@ -49,6 +49,7 @@ frontend/
 │   │   ├── ContentRow.jsx   ← 드라마 목록 섹션 (3종류)
 │   │   └── Ui.jsx           ← 공통 UI 컴포넌트
 │   │   └── ReviewArea.jsx   ← 리뷰 영역
+│   │   └── Search.jsx   ← 리뷰 영역
 │   ├── App.jsx              ← 레이아웃 + 데이터 로딩
 │   ├── index.css            ← Tailwind + 폰트 설정
 │   └── main.jsx             ← React 앱 시작점
