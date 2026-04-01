@@ -1,4 +1,3 @@
-// frontend/src/components/ContentRow.jsx
 import React, { useEffect, useState } from 'react';
 import Card from './Card';
 import { twMerge } from 'tailwind-merge';

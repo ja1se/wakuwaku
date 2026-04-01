@@ -1,4 +1,3 @@
-// frontend/src/components/Card.jsx
 import React from 'react';
 import { TMDB_IMAGE_BASE } from '../api/tmdbService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
