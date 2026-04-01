@@ -35,15 +35,15 @@ frontend/
 │   │   └── axios.js         ← API 통신 설정
 │   │   └── tmdbservice.js   ← tmdb 엔드포인트 정리
 │   ├── components/
-│   │   ├── Card.jsx         ← 드라마 카드 (3개)
+│   │   ├── Card.jsx         ← 드라마 카드 (3종류)
 │   │   ├── Category.jsx     ← 카테고리별 목록
 │   │   ├── ErrorPage.jsx    ← 404 에러 페이지
 │   │   ├── Footer.jsx       ← 하단 푸터
 │   │   ├── Nav.jsx       ← 상단 헤더 + 검색
 │   │   ├── Home.jsx         ← 메인 페이지
 │   │   ├── MovieDetail.jsx  ← 드라마 상세
-│   │   ├── ContentRow.jsx   ← 드라마 목록 섹션 (3개)
-│   │   └── UI.jsx           ← 공통 UI 컴포넌트
+│   │   ├── ContentRow.jsx   ← 드라마 목록 섹션 (3종류)
+│   │   └── Ui.jsx           ← 공통 UI 컴포넌트
 │   ├── App.jsx              ← 레이아웃 + 데이터 로딩
 │   ├── index.css            ← Tailwind + 폰트 설정
 │   └── main.jsx             ← React 앱 시작점
