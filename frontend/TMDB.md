@@ -29,7 +29,17 @@
 - **Detail Info**: `/tv/{series_id}` (타이틀, 별점, 줄거리 등)
 - **Cast**: `/tv/{series_id}/credits` (배우 이름, 프로필 이미지)
 - **Video**: `/tv/{series_id}/videos` (유튜브 예고편 링크 추출)
+- **Similar Content**: `/tv/{series_id}/similar` (추천 콘텐츠)
+- **Reviews**: `/tv/{series_id}/reviews` (사용자 반응)
+    - **author**: 작성자 닉네임
+    - **content**: 리뷰 본문
+    - **created_at**: 작성 날짜
+    - **author_details.rating**: 평점
+    - **author_details.avatar_path**: 프로필 이미지
 - **Accordion Logic**: 시즌 목록은 상세 정보에서 가져오되, **특정 시즌 클릭 시에만** `/tv/{series_id}/season/{n}`을 호출하여 에피소드 데이터를 로드한다 (Lazy Loading).
+- **Error Handling**:
+    - avatar_path가 null인 경우 로컬 `Profile-kukucat.png`를 노출한다.
+    - API 응답의 `results.length === 0`일 경우, Similar 섹션은 비활성화(Hide)하고 Reviews 섹션은 "아직 작성된 리뷰가 없습니다." (Placeholder-message)를 노출한다.
 
 ## 4. UI Data Mapping Rules
 - **Poster**: `https://image.tmdb.org/t/p/w500{path}`

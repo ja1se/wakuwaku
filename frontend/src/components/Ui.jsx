@@ -178,6 +178,36 @@ export const FAB = ({ icon = faPlay, className, onClick }) => {
   );
 };
 
+/**
+ * 7. Placeholder Message Component
+ * Used when there are no reviews or search results
+ */
+export const PlaceholderMessage = ({ 
+  title = "아직 리뷰가 작성되지 않았습니다. 여러분의 소중한 의견을 들려주세요!",
+  subtitle = "당신의 심장을 뛰게 한 캐릭터가 있었나요?",
+  className 
+}) => {
+  return (
+    <div className={twMerge("flex flex-col items-center justify-center gap-3 py-10 px-8 rounded-[10px] w-full max-w-[456px] mx-auto", className)}>
+      <div className="w-[80px] h-[80px] opacity-60 overflow-hidden">
+        <img 
+          src="https://www.figma.com/api/mcp/asset/9df63ff8-6614-4539-92ba-e35e36bbd39c" 
+          alt="No Content" 
+          className="w-full h-full object-contain pointer-events-none"
+        />
+      </div>
+      <div className="flex flex-col items-center gap-1.5 text-center">
+        <p className="text-slate-400 text-[14px] font-medium leading-[20px] max-w-[280px]">
+          {title}
+        </p>
+        <p className="text-slate-500 text-[12px] font-medium leading-[16px]">
+          {subtitle}
+        </p>
+      </div>
+    </div>
+  );
+};
+
 // Default export for testing/preview
 export default function Ui() {
   return (
@@ -219,6 +249,11 @@ export default function Ui() {
           <Profile />
           <FAB />
         </div>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-white text-2xl font-bold">Placeholder</h2>
+        <PlaceholderMessage />
       </section>
     </div>
   );
