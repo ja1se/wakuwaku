@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router';
 import { tmdbService, TMDB_IMAGE_BASE } from '../api/tmdbService';
 import Card from './Card';
+import ReviewArea from './ReviewArea';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faStar, faHeart, faShareNodes, faChevronDown, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { twMerge } from 'tailwind-merge';
@@ -274,30 +275,11 @@ const MovieDetail = () => {
               {reviews.length > 0 ? (
                 <div className="flex flex-col gap-6">
                   {reviews.map(review => (
-                    <div key={review.id} className="bg-[#0f1930]/50 rounded-[16px] p-6 border border-transparent">
-                      <div className="flex justify-between items-start mb-[15px]">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-orange-400 font-semibold overflow-hidden">
-                            {review.author_details?.avatar_path ? (
-                              <img src={`${TMDB_IMAGE_BASE.POSTER}${review.author_details.avatar_path}`} alt="" className="w-full h-full object-cover" />
-                            ) : (
-                              review.author.substring(0, 2).toLowerCase()
-                            )}
-                          </div>
-                          <div>
-                            <p className="font-semibold text-slate-200 text-sm">{review.author}</p>
-                            <p className="text-xs text-slate-400 font-medium">{new Date(review.created_at).toLocaleDateString()}</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <FontAwesomeIcon icon={faStar} className="text-orange-400 text-sm" />
-                          <span className="text-slate-200 font-medium text-lg">{review.author_details?.rating?.toFixed(1) || '4.9'}</span>
-                        </div>
-                      </div>
-                      <p className="text-slate-400 text-sm leading-[20px] font-medium">
-                        {review.content}
-                      </p>
-                    </div>
+                    <ReviewArea 
+                      key={review.id} 
+                      review={review} 
+                      TMDB_IMAGE_BASE={TMDB_IMAGE_BASE} 
+                    />
                   ))}
                 </div>
               ) : (

@@ -11,6 +11,7 @@ const ContentRow = ({ title, fetchFunction, type = 'portrait', showLogo = false,
       try {
         setLoading(true);
         const response = await fetchFunction();
+        console.log("데이터 확인:", response);
         
         // Gourmet(배열)과 일반 API(data.results) 구조 모두 대응
         let data = Array.isArray(response) 

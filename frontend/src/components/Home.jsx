@@ -1,9 +1,12 @@
 // frontend/src/components/Home.jsx
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { tmdbService } from '../api/tmdbService';
 import ContentRow from './ContentRow';
 
 const Hero = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="relative w-full h-[853px] overflow-hidden flex items-end pb-32 px-14 pt-[68px]" data-name="hero-section">
       {/* Background Video */}
@@ -32,10 +35,16 @@ const Hero = () => {
           당신의 취향을 저격할 인생 일드를 AI 기반 추천 시스템으로 만나보세요.
         </p>
         <div className="flex gap-4">
-          <button className="bg-orange-400 text-slate-950 px-10 py-4 rounded-lg font-bold text-lg hover:scale-105 active:scale-95 transition-all shadow-lg shadow-orange-400/20">
+          <button 
+            onClick={() => navigate('/drama/55582')}
+            className="bg-orange-400 text-slate-950 px-10 py-4 rounded-lg font-bold text-lg hover:scale-105 active:scale-95 transition-all shadow-lg shadow-orange-400/20"
+          >
             지금 시청하기
           </button>
-          <button className="bg-slate-900/60 backdrop-blur-md text-white px-10 py-4 rounded-lg font-bold text-lg hover:bg-slate-800/80 transition-all border border-slate-700/50">
+          <button 
+            onClick={() => navigate('/drama/55582')}
+            className="bg-slate-900/60 backdrop-blur-md text-white px-10 py-4 rounded-lg font-bold text-lg hover:bg-slate-800/80 transition-all border border-slate-700/50"
+          >
             상세 정보
           </button>
         </div>
