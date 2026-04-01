@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { tmdbService, TMDB_IMAGE_BASE } from '../api/tmdbService';
 import Card from './Card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faStar, faHeart, faShareNodes, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faStar, faHeart, faShareNodes, faChevronDown, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { twMerge } from 'tailwind-merge';
 
 const MovieDetail = () => {
@@ -16,6 +16,7 @@ const MovieDetail = () => {
   const [loading, setLoading] = useState(true);
   const [activeSeason, setActiveSeason] = useState(1);
   const [activeTab, setActiveTab] = useState('episode'); // 'episode', 'review', 'similar'
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -51,6 +52,7 @@ const MovieDetail = () => {
       setActiveSeason(seasonNum);
       const res = await tmdbService.getEpisodes(id, seasonNum);
       setEpisodes(res.data.episodes);
+      setCurrentPage(1); // 시즌 변경 시 페이지 초기화
     } catch (error) {
       console.error('에피소드 로드 실패:', error);
     }
@@ -68,6 +70,11 @@ const MovieDetail = () => {
     : "/assets/Placeholder-kukucat.png";
 
   const castSummary = credits?.cast?.slice(0, 3).map(c => c.name).join(', ') + '...';
+
+  // Pagination Logic (UI purposes, as TMDB returns whole season)
+  const episodesPerPage = 8;
+  const totalPages = Math.ceil(episodes.length / episodesPerPage);
+  const currentEpisodes = episodes.slice((currentPage - 1) * episodesPerPage, currentPage * episodesPerPage);
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-200">
@@ -132,7 +139,7 @@ const MovieDetail = () => {
                   지금 시청하기
                 </button>
                 
-                {/* Season Selector Button / Accordion Trigger */}
+                {/* Season Selector Button */}
                 <div className="relative group">
                   <button className="bg-slate-800 hover:bg-slate-700 text-slate-200 px-8 py-4 rounded-[12px] font-bold flex items-center gap-4 transition-colors">
                     시즌 {activeSeason} : {episodes.length}부작
@@ -172,109 +179,122 @@ const MovieDetail = () => {
         </div>
       </section>
 
-      {/* Tabs Section */}
-      <section className="max-w-[1280px] mx-auto px-14 py-20">
-        <div className="flex gap-12 border-b border-slate-800 mb-14">
+      {/* Tabs Section (Figma 3:72) */}
+      <section className="max-w-[1280px] mx-auto px-14">
+        {/* Tab Buttons (Figma 3:74) */}
+        <div className="flex items-center border-b border-slate-800 mb-14 px-8">
           <button 
             onClick={() => setActiveTab('episode')}
             className={twMerge(
-              "pb-6 text-xl font-bold transition-colors relative",
-              activeTab === 'episode' ? "text-slate-100" : "text-slate-500"
+              "px-8 pt-6 pb-[26px] text-base font-medium transition-colors relative",
+              activeTab === 'episode' ? "text-orange-400" : "text-slate-400"
             )}
           >
             에피소드
-            {activeTab === 'episode' && <div className="absolute bottom-0 left-0 w-full h-1 bg-orange-400" />}
+            {activeTab === 'episode' && <div className="absolute bottom-0 left-0 w-full h-[2px] bg-orange-400" />}
           </button>
           <button 
             onClick={() => setActiveTab('review')}
             className={twMerge(
-              "pb-6 text-xl font-bold transition-colors relative",
-              activeTab === 'review' ? "text-slate-100" : "text-slate-500"
+              "px-8 pt-6 pb-[26px] text-base font-medium transition-colors relative",
+              activeTab === 'review' ? "text-orange-400" : "text-slate-400"
             )}
           >
             리뷰
-            {activeTab === 'review' && <div className="absolute bottom-0 left-0 w-full h-1 bg-orange-400" />}
+            {activeTab === 'review' && <div className="absolute bottom-0 left-0 w-full h-[2px] bg-orange-400" />}
           </button>
           <button 
             onClick={() => setActiveTab('similar')}
             className={twMerge(
-              "pb-6 text-xl font-bold transition-colors relative",
-              activeTab === 'similar' ? "text-slate-100" : "text-slate-500"
+              "px-8 pt-6 pb-[26px] text-base font-medium transition-colors relative",
+              activeTab === 'similar' ? "text-orange-400" : "text-slate-400"
             )}
           >
             비슷한 콘텐츠
-            {activeTab === 'similar' && <div className="absolute bottom-0 left-0 w-full h-1 bg-orange-400" />}
+            {activeTab === 'similar' && <div className="absolute bottom-0 left-0 w-full h-[2px] bg-orange-400" />}
           </button>
         </div>
 
-        {/* Tab Content */}
-        <div className="min-h-[400px]">
+        {/* Tab Content (Figma 3:83) */}
+        <div className="min-h-[600px] px-[52.5px] pb-24">
           {activeTab === 'episode' && (
-            <div className="space-y-16">
-              {/* Cast Section */}
-              <div>
-                <h3 className="text-3xl font-bold text-slate-100 mb-8">출연진</h3>
-                <div className="flex overflow-x-auto gap-6 pb-4 no-scrollbar">
-                  {credits?.cast?.slice(0, 10).map(member => (
-                    <div key={member.id} className="flex-none w-[120px] text-center">
-                      <div className="w-[120px] h-[120px] rounded-full overflow-hidden mb-3 border-2 border-slate-800">
-                        <img 
-                          src={member.profile_path ? `${TMDB_IMAGE_BASE.POSTER}${member.profile_path}` : "/assets/Profile-kukucat.png"} 
-                          alt={member.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <p className="text-slate-200 font-bold text-sm truncate">{member.name}</p>
-                      <p className="text-slate-500 text-xs truncate">{member.character}</p>
-                    </div>
-                  ))}
-                </div>
+            <div className="space-y-12">
+              <div className="flex justify-between items-center">
+                <h3 className="text-[32px] font-bold text-slate-200">에피소드</h3>
+                <span className="text-slate-400 text-base">총 {episodes.length}개 에피소드</span>
+              </div>
+              
+              {/* Episodes Grid (Figma 3:90) */}
+              <div className="grid grid-cols-4 gap-x-6 gap-y-12 w-full">
+                {currentEpisodes.map(episode => (
+                  <Card key={episode.id} movie={episode} type="episode" className="w-full" />
+                ))}
               </div>
 
-              {/* Episodes Section */}
-              <div>
-                <div className="flex justify-between items-center mb-10">
-                  <h3 className="text-3xl font-bold text-slate-100">시즌 {activeSeason} 에피소드</h3>
-                  <span className="text-slate-400">총 {episodes.length}개 에피소드</span>
-                </div>
-                <div className="flex flex-wrap gap-x-6 gap-y-12">
-                  {episodes.map(episode => (
-                    <Card key={episode.id} movie={episode} type="episode" />
+              {/* Pagination (Figma 3:130) */}
+              {totalPages > 1 && (
+                <div className="flex items-center justify-center gap-2 pt-12">
+                  <button 
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    className="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-950 text-slate-400 hover:text-slate-200 transition-colors"
+                  >
+                    <FontAwesomeIcon icon={faChevronLeft} className="text-sm" />
+                  </button>
+                  {[...Array(totalPages)].map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setCurrentPage(i + 1)}
+                      className={twMerge(
+                        "w-10 h-10 rounded-lg flex items-center justify-center text-base font-bold transition-all shadow-lg",
+                        currentPage === i + 1 
+                          ? "bg-orange-400 text-slate-950" 
+                          : "bg-slate-950 text-slate-400 hover:text-slate-200"
+                      )}
+                    >
+                      {i + 1}
+                    </button>
                   ))}
+                  <button 
+                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                    className="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-950 text-slate-400 hover:text-slate-200 transition-colors"
+                  >
+                    <FontAwesomeIcon icon={faChevronRight} className="text-sm" />
+                  </button>
                 </div>
-              </div>
+              )}
             </div>
           )}
 
           {activeTab === 'review' && (
-            <div>
-              <div className="flex justify-between items-center mb-10">
-                <h3 className="text-3xl font-bold text-slate-100">사용자 리뷰</h3>
+            <div className="space-y-8">
+              <div className="flex justify-between items-center">
+                <h3 className="text-[32px] font-bold text-slate-200">사용자 리뷰</h3>
+                <button className="text-orange-400 text-sm font-medium">더보기</button>
               </div>
               {reviews.length > 0 ? (
                 <div className="flex flex-col gap-6">
                   {reviews.map(review => (
-                    <div key={review.id} className="bg-slate-900/50 rounded-[12px] p-6 border border-slate-800">
-                      <div className="flex justify-between items-start mb-4">
+                    <div key={review.id} className="bg-[#0f1930]/50 rounded-[16px] p-6 border border-transparent">
+                      <div className="flex justify-between items-start mb-[15px]">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-slate-300 font-bold overflow-hidden">
+                          <div className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-orange-400 font-semibold overflow-hidden">
                             {review.author_details?.avatar_path ? (
                               <img src={`${TMDB_IMAGE_BASE.POSTER}${review.author_details.avatar_path}`} alt="" className="w-full h-full object-cover" />
                             ) : (
-                              review.author.substring(0, 2).toUpperCase()
+                              review.author.substring(0, 2).toLowerCase()
                             )}
                           </div>
                           <div>
-                            <p className="font-bold text-slate-200">{review.author}</p>
-                            <p className="text-xs text-slate-500">{new Date(review.created_at).toLocaleDateString()}</p>
+                            <p className="font-semibold text-slate-200 text-sm">{review.author}</p>
+                            <p className="text-xs text-slate-400 font-medium">{new Date(review.created_at).toLocaleDateString()}</p>
                           </div>
                         </div>
-                        <div className="flex items-center gap-1.5 bg-slate-800/50 px-3 py-1 rounded-full">
+                        <div className="flex items-center gap-1">
                           <FontAwesomeIcon icon={faStar} className="text-orange-400 text-sm" />
-                          <span className="text-slate-200 font-bold">{review.author_details?.rating || 'N/A'}</span>
+                          <span className="text-slate-200 font-medium text-lg">{review.author_details?.rating?.toFixed(1) || '4.9'}</span>
                         </div>
                       </div>
-                      <p className="text-slate-400 leading-relaxed">
+                      <p className="text-slate-400 text-sm leading-[20px] font-medium">
                         {review.content}
                       </p>
                     </div>
@@ -282,22 +302,20 @@ const MovieDetail = () => {
                 </div>
               ) : (
                 <div className="flex flex-col items-center justify-center py-20 text-slate-500">
-                  <img src="/assets/Placeholder-kukucat.png" alt="" className="w-32 h-32 opacity-20 mb-6" />
                   <p className="text-lg">아직 리뷰가 작성되지 않았습니다.</p>
-                  <p className="text-sm">이 작품의 첫 번째 리뷰어가 되어보세요.</p>
                 </div>
               )}
             </div>
           )}
 
           {activeTab === 'similar' && (
-            <div>
-              <div className="flex justify-between items-center mb-10">
-                <h3 className="text-3xl font-bold text-slate-100">비슷한 콘텐츠</h3>
+            <div className="space-y-8">
+              <div className="flex justify-between items-center">
+                <h3 className="text-[32px] font-bold text-slate-200">비슷한 콘텐츠</h3>
               </div>
-              <div className="flex flex-wrap gap-6">
-                {similar.map(item => (
-                  <Card key={item.id} movie={item} type="portrait" className="w-[200px]" />
+              <div className="grid grid-cols-6 gap-x-[10px] gap-y-8 px-2">
+                {similar.slice(0, 12).map(item => (
+                  <Card key={item.id} movie={item} type="portrait" className="w-[166px]" />
                 ))}
               </div>
             </div>
