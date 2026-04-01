@@ -14,8 +14,9 @@ const Card = ({ movie, type = 'portrait', className }) => {
     : "https://via.placeholder.com/500x750?text=No+Poster";
 
   // 백드롭 이미지 URL (landscape, episode용)
-  const backdropUrl = movie.backdrop_path 
-    ? `${TMDB_IMAGE_BASE.BACKDROP}${movie.backdrop_path}`
+  // 에피소드의 경우 still_path를 사용
+  const backdropUrl = (movie.backdrop_path || movie.still_path) 
+    ? `${TMDB_IMAGE_BASE.BACKDROP}${movie.backdrop_path || movie.still_path}`
     : "https://via.placeholder.com/1280x720?text=No+Backdrop";
 
   // 1. Portrait Card (기본형: 피그마 14:227)

@@ -39,4 +39,7 @@ export const tmdbService = {
   
   // 에피소드 데이터 (Lazy Loading 전략)
   getEpisodes: (id, seasonNum) => tmdbApi.get(`/tv/${id}/season/${seasonNum}`),
+
+  // 리뷰 (명세 3)
+  getReviews: (id) => tmdbApi.get(`/tv/${id}/reviews`),
 };
