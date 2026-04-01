@@ -124,20 +124,35 @@ export const SearchForm = ({ placeholder = "영화, TV 프로그램, 배우 검�
 };
 
 export const ChatbotForm = ({ className, onSend }) => {
+  const [input, setInput] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (input.trim()) {
+      onSend(input);
+      setInput('');
+    }
+  };
+
   return (
-    <div className={twMerge("bg-slate-800 border-2 border-slate-900 rounded-[12px] flex items-center px-4 py-2 gap-2 w-full max-w-[400px] focus-within:border-orange-400 transition-all", className)}>
+    <form 
+      onSubmit={handleSubmit}
+      className={twMerge("bg-slate-800 border-2 border-slate-900 rounded-[12px] flex items-center px-4 py-2 gap-2 w-full focus-within:border-orange-400 transition-all", className)}
+    >
       <input 
         type="text" 
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
         placeholder="메시지를 입력하세요..."
         className="bg-transparent border-none outline-none text-slate-200 text-sm flex-1 placeholder:text-slate-600 py-2"
       />
       <button 
-        onClick={onSend}
-        className="bg-orange-400 text-slate-950 w-8 h-8 rounded-[8px] flex items-center justify-center hover:bg-orange-300 active:scale-90 transition-all"
+        type="submit"
+        className="bg-orange-400 text-slate-950 w-8 h-8 rounded-[8px] flex items-center justify-center hover:bg-orange-300 active:scale-90 transition-all shrink-0"
       >
         <FontAwesomeIcon icon={faPaperPlane} size="sm" />
       </button>
-    </div>
+    </form>
   );
 };
 
@@ -172,8 +187,7 @@ export const FAB = ({ icon = faPlay, className, onClick }) => {
         className
       )}
     >
-      {/* Kuku cat or custom icon logic can be added here, using a generic play icon for now */}
-      <FontAwesomeIcon icon={icon} className="text-slate-950 text-xl ml-1 group-hover:scale-110 transition-transform" />
+      <FontAwesomeIcon icon={icon} className="text-slate-950 text-xl group-hover:scale-110 transition-transform" />
     </button>
   );
 };

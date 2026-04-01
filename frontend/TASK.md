@@ -35,6 +35,10 @@ frontend/
 │   │   └── axios.js         ← API 통신 설정
 │   │   └── tmdbservice.js   ← tmdb 엔드포인트 정리
 │   ├── components/
+│.  │   └── Chatbot/         ← 챗봇 폴더
+│.  │   │   ├── Chatbot.jsx  ← 챗봇 전체 구조
+│.  │   │   ├── MessageList.jsx  ← 챗봇 메시지 목록
+│.  │   │   └── Chatbot.css  ← 챗봇 스타일
 │   │   ├── Card.jsx         ← 드라마 카드 (3종류)
 │   │   ├── Category.jsx     ← 카테고리별 목록
 │   │   ├── ErrorPage.jsx    ← 404 에러 페이지
