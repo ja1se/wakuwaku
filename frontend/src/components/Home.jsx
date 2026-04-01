@@ -1,6 +1,6 @@
 // frontend/src/components/Home.jsx
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { tmdbService } from '../api/tmdbService';
 import ContentRow from './ContentRow';
 
