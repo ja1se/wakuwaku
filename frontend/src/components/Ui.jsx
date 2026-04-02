@@ -1,4 +1,3 @@
-// frontend/src/components/Ui.jsx
 import React, { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -23,7 +22,7 @@ export const Button = ({
   const baseStyles = "relative content-stretch flex items-center justify-center rounded-[12px] font-bold transition-all duration-200 cursor-pointer overflow-hidden active:scale-95";
   
   const variants = {
-    primary: "bg-orange-400 text-slate-950 hover:bg-orange-300 focus:border-2 focus:border-orange-500",
+    primary: "bg-orange-400 text-slate-950 hover:brightness-125 focus:border-2 focus:border-orange-500",
     secondary: "bg-slate-700 text-slate-200 hover:bg-slate-600 focus:border-2 focus:border-slate-800",
   };
 

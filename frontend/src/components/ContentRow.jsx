@@ -55,7 +55,7 @@ const ContentRow = ({ title, fetchFunction, movies: initialMovies, type = 'portr
       {/* 가로 스크롤 영역 */}
       <div 
         className={twMerge(
-          "flex overflow-x-auto pb-6 -mx-14 px-14 scroll-smooth no-scrollbar",
+          "flex overflow-x-auto pb-8 -mx-14 px-14 py-4 -my-4 scroll-smooth no-scrollbar",
           type === 'portrait' && "gap-6",
           type === 'landscape' && "gap-6",
           type === 'episode' && "gap-[10px]"
