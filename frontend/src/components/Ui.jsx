@@ -198,8 +198,7 @@ export const PlaceholderMessage = ({
     <div className={twMerge("flex flex-col items-center justify-center gap-3 py-10 px-8 rounded-[10px] w-full max-w-[456px] mx-auto", className)}>
       <div className="w-[80px] h-[80px] opacity-60 overflow-hidden">
         <img 
-          src="https://www.figma.com/api/mcp/asset/9df63ff8-6614-4539-92ba-e35e36bbd39c" 
-          alt="No Content" 
+          src="/assets/Placeholder-kukucat.png" 
           className="w-full h-full object-contain pointer-events-none"
         />
       </div>
