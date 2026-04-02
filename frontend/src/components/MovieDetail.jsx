@@ -14,8 +14,8 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { twMerge } from "tailwind-merge";
-import { Spinner, Button, PlaceholderMessage } from "./Ui.jsx";
-import ContentRow from './ContentRow';
+import { Spinner, Button, PlaceholderMessage, Accordion } from "./Ui.jsx";
+import ContentRow from "./ContentRow";
 
 const MovieDetail = () => {
   const { id } = useParams();
@@ -178,56 +178,55 @@ const MovieDetail = () => {
                   size="large"
                   showIcon={true}
                   icon={faPlay}
-                  onClick={() => navigate(`/tv/${hero.id}`)} // 클릭 시 이동
+                  onClick={() => navigate(`/tv/${id}`)} // 클릭 시 이동
                 >
                   예고편 보기
                 </Button>
 
-                {/* Season Selector Button */}
-                <div className="relative group">
-                  <button className="bg-slate-800 hover:bg-slate-700 text-slate-200 px-8 py-4 rounded-[12px] font-bold flex items-center gap-4 transition-colors">
-                    시즌 {activeSeason} : {episodes.length}부작
-                    <FontAwesomeIcon icon={faChevronDown} className="text-sm" />
-                  </button>
+                {/* 시즌 선택 버튼 */}
+                <div className="relative w-full max-w-[320px] z-50">
+                  <Accordion
+                    title={`시즌 ${activeSeason} : ${episodes.length}부작`} className="bg-slate-800 rounded-[12px]">
+                    <div className="absolute top-full left-0 w-full mt-2 bg-slate-800 border border-slate-700 rounded-[12px] shadow-2xl overflow-hidden">
+                      <div className="flex flex-col gap-1 max-h-[132px] overflow-y-auto no-scrollbar py-2">
+                        {drama.seasons
+                          ?.filter((s) => s.season_number > 0)
+                          .map((season) => (
+                            <button
+                              key={season.id}
+                              onClick={() => {
+                                handleSeasonChange(season.season_number);
+                              }}
+                              className={twMerge(
+                                "w-full text-left px-4 py-2 rounded-lg transition-colors hover:bg-slate-700",
+                                activeSeason === season.season_number
+                                  ? "text-orange-400 font-bold bg-orange-400/10"
+                                  : "text-slate-300",
+                              )}
+                            >
+                              시즌 {season.season_number}
+                            </button>
+                          ))}
+                      </div>
+                    </div>
+                  </Accordion>
+                </div>
 
-                  {/* Dropdown for Season selection */}
-                  <div className="absolute top-full left-0 mt-2 w-full bg-slate-800 rounded-[12px] py-2 hidden group-hover:block z-50 shadow-xl border border-slate-700">
-                    {drama.seasons
-                      ?.filter((s) => s.season_number > 0)
-                      .map((season) => (
-                        <button
-                          key={season.id}
-                          onClick={() =>
-                            handleSeasonChange(season.season_number)
-                          }
-                          className={twMerge(
-                            "w-full text-left px-6 py-2 hover:bg-slate-700 transition-colors",
-                            activeSeason === season.season_number
-                              ? "text-orange-400"
-                              : "text-slate-300",
-                          )}
-                        >
-                          시즌 {season.season_number}
-                        </button>
-                      ))}
+                <div className="flex items-center gap-4">
+                  <div className="flex flex-col items-center cursor-pointer group">
+                    <FontAwesomeIcon
+                      icon={faHeart}
+                      className="text-xl text-slate-400 group-hover:text-red-500 transition-colors"
+                    />
+                    <span className="text-xs text-slate-400 mt-1">관심</span>
                   </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <div className="flex flex-col items-center cursor-pointer group">
-                  <FontAwesomeIcon
-                    icon={faHeart}
-                    className="text-xl text-slate-400 group-hover:text-red-500 transition-colors"
-                  />
-                  <span className="text-xs text-slate-400 mt-1">관심</span>
-                </div>
-                <div className="flex flex-col items-center cursor-pointer group">
-                  <FontAwesomeIcon
-                    icon={faShareNodes}
-                    className="text-xl text-slate-400 group-hover:text-primary transition-colors"
-                  />
-                  <span className="text-xs text-slate-400 mt-1">공유</span>
+                  <div className="flex flex-col items-center cursor-pointer group">
+                    <FontAwesomeIcon
+                      icon={faShareNodes}
+                      className="text-xl text-slate-400 group-hover:text-primary transition-colors"
+                    />
+                    <span className="text-xs text-slate-400 mt-1">공유</span>
+                  </div>
                 </div>
               </div>
             </div>

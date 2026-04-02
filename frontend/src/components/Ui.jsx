@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
@@ -37,7 +37,7 @@ export const Button = ({
       className={twMerge(baseStyles, variants[variant], sizes[size], className)}
       {...props}
     >
-      {/* Overlay for hover/active effects from DesignSystem.md */}
+      {/* Overlay for hover/active effects */}
       <div className="absolute inset-0 bg-white/0 hover:bg-white/10 active:bg-white/20 transition-colors" />
       
       <div className="relative z-10 flex items-center gap-2">
@@ -70,21 +70,21 @@ export const Accordion = ({ title, children, defaultOpen = false, className }) =
 
   return (
     <div className={twMerge("w-full transition-all duration-300", className)}>
-      <button 
+      <button
         onClick={() => setIsOpen(!isOpen)}
         className={twMerge(
           "w-full flex items-center justify-between px-8 py-4 rounded-[12px] bg-slate-800 border-2 transition-all",
-          isOpen ? "border-orange-400" : "border-transparent"
+          isOpen ? "border-orange-400" : "border-transparent hover:border-slate-400"
         )}
       >
         <span className="text-slate-200 font-bold">{title}</span>
         <FontAwesomeIcon 
           icon={isOpen ? faChevronUp : faChevronDown} 
-          className="text-slate-400 text-sm" 
+          className={twMerge("text-sm transition-transform", isOpen ? "text-orange-400 rotate-180" : "text-slate-400")} 
         />
       </button>
       {isOpen && (
-        <div className="px-8 py-4 text-slate-400 animate-in fade-in slide-in-from-top-2 duration-300">
+        <div className="px-8 text-slate-400 animate-in fade-in slide-in-from-top-2 duration-300">
           {children}
         </div>
       )}
@@ -190,8 +190,8 @@ export function Spinner({ message = "불러오는 중...", full = false, classNa
 
 // 8. Placeholder Message Component
 export const PlaceholderMessage = ({ 
-  title = "아직 리뷰가 작성되지 않았습니다. 여러분의 소중한 의견을 들려주세요!",
-  subtitle = "당신의 심장을 뛰게 한 캐릭터가 있었나요?",
+  title = "텅 빈 리뷰 창이 외롭대요...",
+  subtitle = "첫 마디를 건네주세요! 💬",
   className 
 }) => {
   return (
