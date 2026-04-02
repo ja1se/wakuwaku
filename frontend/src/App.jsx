@@ -8,11 +8,11 @@ import { FAB } from './components/Ui';
 import { faMessage } from '@fortawesome/free-solid-svg-icons';
 
 export function App() {
-  const [popular, setPopular] = useState([]);
-  const [onAir, setOnAir] = useState([]);
-  const [suspense, setSuspense] = useState([]);
-  const [mystery, setMystery] = useState([]);
-  const [gourmet, setGourmet] = useState([]);
+  const [popular, setPopular] = useState(null);
+  const [onAir, setOnAir] = useState(null);
+  const [suspense, setSuspense] = useState(null);
+  const [mystery, setMystery] = useState(null);
+  const [gourmet, setGourmet] = useState(null);
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   useEffect(() => {

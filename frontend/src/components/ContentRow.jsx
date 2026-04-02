@@ -8,8 +8,7 @@ const ContentRow = ({ title, fetchFunction, movies: initialMovies, type = 'portr
 
   useEffect(() => {
     if (initialMovies) {
-      const filteredData = initialMovies.filter(m => !m.genre_ids?.includes(16));
-      setMovies(filteredData);
+      setMovies(initialMovies);
       setLoading(false);
       return;
     }
@@ -23,13 +22,11 @@ const ContentRow = ({ title, fetchFunction, movies: initialMovies, type = 'portr
 
         // axios interceptor가 response.data를 반환하므로 response가 곧 데이터임
         // Gourmet(배열)과 일반 API(results) 구조 모두 대응
-        let data = Array.isArray(response) 
+        const data = Array.isArray(response) 
           ? response 
           : (response.results || response.data?.results || []);
 
-        // 명세 1: 애니메이션(장르 ID 16) 제외 필터링
-        const filteredData = data.filter(m => !m.genre_ids?.includes(16));
-        setMovies(filteredData);
+        setMovies(data);
       } catch (error) {
         console.error(`${title} 데이터 로드 실패:`, error);
       } finally {

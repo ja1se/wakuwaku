@@ -10,11 +10,7 @@ import {
   faChevronUp 
 } from '@fortawesome/free-solid-svg-icons';
 
-/**
- * 1. Button Components
- * Variants: primary, secondary
- * Sizes: large, medium, small
- */
+//1. Button Components (Variants: primary, secondary, Sizes: large, medium, small)
 export const Button = ({ 
   children, 
   variant = 'primary', 
@@ -53,10 +49,7 @@ export const Button = ({
   );
 };
 
-/**
- * 2. Badge Components
- * Variants: large (soft), medium (solid)
- */
+// 2. Badge Components (Variants: large (soft), medium (solid))
 export const Badge = ({ children, variant = 'medium', className }) => {
   const baseStyles = "inline-flex items-center justify-center font-bold tracking-tight whitespace-nowrap";
   
@@ -72,9 +65,7 @@ export const Badge = ({ children, variant = 'medium', className }) => {
   );
 };
 
-/**
- * 3. Accordion Component
- */
+// 3. Accordion Component
 export const Accordion = ({ title, children, defaultOpen = false, className }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
@@ -102,9 +93,7 @@ export const Accordion = ({ title, children, defaultOpen = false, className }) =
   );
 };
 
-/**
- * 4. Form Components (Search & Chatbot)
- */
+// 4. Form Components (Search & Chatbot)
 export const SearchForm = ({ placeholder = "영화, TV 프로그램, 배우 검색", className, onSearch }) => {
   return (
     <div className={twMerge("relative w-full max-w-[768px] group", className)}>
@@ -156,9 +145,7 @@ export const ChatbotForm = ({ className, onSend }) => {
   );
 };
 
-/**
- * 5. Profile Component
- */
+// 5. Profile Component
 export const Profile = ({ src, className }) => {
   return (
     <div className={twMerge("relative size-[56px] rounded-full p-[2px] bg-orange-400 shadow-inner group cursor-pointer", className)}>
@@ -175,9 +162,7 @@ export const Profile = ({ src, className }) => {
   );
 };
 
-/**
- * 6. FAB (Floating Action Button)
- */
+// 6. FAB (Floating Action Button)
 export const FAB = ({ icon = faPlay, className, onClick }) => {
   return (
     <button 
@@ -192,10 +177,19 @@ export const FAB = ({ icon = faPlay, className, onClick }) => {
   );
 };
 
-/**
- * 7. Placeholder Message Component
- * Used when there are no reviews or search results
- */
+// 7. Spinner Component
+export function Spinner({ message = "불러오는 중...", full = false, className = "" }) {
+  if (full) {
+    return (
+      <div className="bg-black min-h-screen flex items-center justify-center">
+        <p className="text-white text-2xl animate-pulse">{message}</p>
+      </div>
+    );
+  }
+  return <p className={`text-white text-xl ${className}`}>{message}</p>;
+}
+
+// 8. Placeholder Message Component
 export const PlaceholderMessage = ({ 
   title = "아직 리뷰가 작성되지 않았습니다. 여러분의 소중한 의견을 들려주세요!",
   subtitle = "당신의 심장을 뛰게 한 캐릭터가 있었나요?",
@@ -222,7 +216,7 @@ export const PlaceholderMessage = ({
   );
 };
 
-// Default export for testing/preview
+// 9. Default export for testing/preview
 export default function Ui() {
   return (
     <div className="p-10 bg-slate-950 min-h-screen space-y-12">
