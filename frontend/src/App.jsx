@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Outlet } from 'react-router';
 import { tmdbService } from './api/tmdbService';
 import Nav from './components/Nav';
@@ -7,17 +7,19 @@ import Chatbot from './components/Chatbot/Chatbot';
 import { FAB } from './components/Ui';
 import { faMessage } from '@fortawesome/free-solid-svg-icons';
 
-export function App() {
+export default function App() {
   const [popular, setPopular] = useState(null);
   const [onAir, setOnAir] = useState(null);
   const [suspense, setSuspense] = useState(null);
   const [mystery, setMystery] = useState(null);
   const [gourmet, setGourmet] = useState(null);
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const [
           popularRes,
           onAirRes,
@@ -42,6 +44,8 @@ export function App() {
 
       } catch (error) {
         console.error('Failed to fetch TMDB data:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -52,7 +56,7 @@ export function App() {
     <>
       <Nav />
       <main>
-        <Outlet context={{ popular, onAir, suspense, mystery, gourmet }} />
+        <Outlet context={{ popular, onAir, suspense, mystery, gourmet, loading }} />
       </main>
       <Footer />
 

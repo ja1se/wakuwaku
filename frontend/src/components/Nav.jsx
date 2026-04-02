@@ -22,7 +22,7 @@ export default function Nav() {
   const handleSearch = (e) => {
     e.preventDefault()
     if (query.trim()) {
-      navigate(`/?search=${encodeURIComponent(query.trim())}`)
+      navigate(`/search?q=${encodeURIComponent(query.trim())}`)
       setSearchOpen(false)
       setQuery('')
     }
@@ -40,8 +40,8 @@ return (
       className={twMerge(
         'fixed top-0 inset-x-0 z-50 transition-all duration-300',
         scrolled
-          ? 'bg-transparent backdrop-blur-[var(--blur-nav)]'
-          : 'bg-surface/80 backdrop-blur-[var(--blur-scrolled)] shadow-nav'
+          ? 'bg-surface/80 backdrop-blur-[var(--blur-scrolled)] shadow-nav'
+          : 'bg-transparent backdrop-blur-[var(--blur-nav)]'
       )}
     >
       <div className="flex max-w-7xl w-full px-6 py-4 justify-between items-center mx-auto">
