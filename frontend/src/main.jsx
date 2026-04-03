@@ -9,6 +9,7 @@ import Search from './components/Search';
 import Category from './components/Category';
 import ErrorPage from './components/ErrorPage';
 import Ai from './components/Ai';
+import Mypage from './components/Mypage';
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: "search",
         element: <Search />,
+      },
+      {
+        path: "mypage",
+        element: <Mypage />,
       },
       {
         path: "category/:type",

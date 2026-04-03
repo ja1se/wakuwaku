@@ -1,89 +1,178 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getRecommendations } from '../services/api';
+import { tmdbService } from '../api/tmdbService';
+import { SearchForm, Spinner, Badge } from './Ui';
+import Card from './Card';
+import Nav from './Nav';
+import Footer from './Footer';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClock, faArrowTrendUp } from '@fortawesome/free-solid-svg-icons';
+import { twMerge } from 'tailwind-merge';
 
-function Search() {
+const Search = () => {
   const [userInput, setUserInput] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  
+  // 피그마 기반 더미 데이터
+  const recentSearches = ['오펜하이머', '듄: 파트 2', '파묘', '어벤져스'];
+  const trendingSearches = ['#1 범죄도시4', '#2 에이리언', '#3 인사이드 아웃 2', '#4 혹성탈출'];
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    if (!userInput.trim()) return;
+  const handleSearch = async (query = userInput) => {
+    const searchQuery = typeof query === 'string' ? query : userInput;
+    if (!searchQuery.trim()) return;
 
     setLoading(true);
-    // 작성하신 api.js의 함수 호출
-    const data = await getRecommendations(userInput);
-    setResults(data);
-    setLoading(false);
+    try {
+      // 1. AI 문장 유사도 기반 추천 시스템 호출
+      const recommendData = await getRecommendations(searchQuery);
+      
+      // 2. 추천된 ID들로 TMDB 상세 정보 가져오기
+      const fullResults = await Promise.all(
+        recommendData.map(async (item) => {
+          try {
+            const movieDetails = await tmdbService.getDetails(item.id);
+            return { ...movieDetails, ai_score: item.score };
+          } catch (err) {
+            console.error(`Failed to fetch details for ID ${item.id}:`, err);
+            return null;
+          }
+        })
+      );
+
+      setResults(fullResults.filter(Boolean));
+    } catch (error) {
+      console.error("추천 검색 실패:", error);
+      setResults([]);
+    } finally {
+      setLoading(false);
+    }
   };
 
+  const handleKeywordClick = (keyword) => {
+    const cleanKeyword = keyword.startsWith('#') ? keyword.split(' ')[1] : keyword;
+    setUserInput(cleanKeyword);
+    handleSearch(cleanKeyword);
+  };
+
+  // 초기 로딩 시 기본 데이터 표시 (인기 드라마)
+  useEffect(() => {
+    const fetchInitial = async () => {
+      setLoading(true);
+      try {
+        const response = await tmdbService.getPopular();
+        setResults(response.results.slice(0, 10));
+      } catch (error) {
+        console.error("초기 데이터 로드 실패:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchInitial();
+  }, []);
+
   return (
-    <div className="flex flex-col min-h-screen bg-[#0F0F0F] text-white font-sans">
-      <main className="flex-grow container mx-auto px-6 py-16">
-        <header className="max-w-2xl mx-auto text-center mb-16">
-          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-            WakuWaku AI 추천
-          </h1>
-          <p className="text-gray-400 text-lg">
-            분위기, 줄거리, 키워드 무엇이든 입력해보세요. <br />
-            와쿠와쿠 AI가 당신의 취향을 분석합니다.
-          </p>
-        </header>
-
-        {/* 검색창 섹션 */}
-        <form onSubmit={handleSearch} className="max-w-xl mx-auto mb-20">
-          <div className="relative group">
-            <input
-              type="text"
-              value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
-              placeholder="예: 학교 폭력에 맞서는 긴장감 넘치는 복수극"
-              className="w-full bg-[#1A1A1A] border border-gray-800 rounded-full py-5 px-8 focus:outline-none focus:border-blue-500 transition-all text-lg shadow-2xl"
-            />
-            <button
-              type="submit"
-              disabled={loading}
-              className="absolute right-3 top-1/2 -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-bold transition-all disabled:bg-gray-700"
-            >
-              {loading ? "분석 중..." : "추천받기"}
-            </button>
-          </div>
-        </form>
-
-        {/* 결과 섹션 */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {results.length > 0 ? (
-            results.map((drama) => (
-              <div 
-                key={drama.id} 
-                className="bg-[#1A1A1A] rounded-3xl overflow-hidden border border-gray-800 hover:scale-105 transition-transform duration-300"
-              >
-                <div className="p-8">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-black bg-blue-500/20 text-blue-400 py-1 px-3 rounded-full uppercase tracking-widest">
-                      AI Match {drama.score}%
-                    </span>
-                  </div>
-                  <h3 className="text-2xl font-bold mb-3">{drama.title}</h3>
-                  <p className="text-gray-500 text-sm leading-relaxed">
-                    사용자가 입력한 문맥과 {drama.score}% 일치하는 감성을 가진 작품입니다.
-                  </p>
-                </div>
-              </div>
-            ))
-          ) : (
-            !loading && (
-              <div className="col-span-full text-center py-20">
-                <p className="text-gray-600 text-lg italic">
-                  {userInput ? "일치하는 추천 결과가 없습니다." : "무엇을 보고 싶으신가요? AI에게 물어보세요!"}
-                </p>
-              </div>
-            )
-          )}
+    <div className="bg-slate-950 min-h-screen flex flex-col items-center relative w-full overflow-x-hidden">
+      <Nav />
+      
+      <main className="flex flex-col gap-20 items-center max-w-[1280px] w-full pt-36 pb-20 px-6">
+        {/* 검색 섹션 (Figma: search-section) */}
+        <div className="flex flex-col items-center w-full max-w-[788px] gap-4">
+          <SearchForm 
+            value={userInput}
+            onChange={setUserInput}
+            onSearch={handleSearch}
+            placeholder="기분, 장르, 분위기 등 무엇이든 입력해 보세요!"
+            className="w-full"
+          />
         </div>
+
+        {/* 키워드 섹션 (Figma: search-keywords) */}
+        <section className="flex flex-col md:flex-row gap-10 md:gap-20 w-full max-w-[914px]">
+          {/* 최근 검색어 */}
+          <div className="flex flex-col gap-4 flex-1">
+            <div className="flex items-center gap-2 text-slate-400">
+              <FontAwesomeIcon icon={faClock} className="size-4" />
+              <span className="text-sm font-medium">최근 검색어</span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {recentSearches.map((keyword) => (
+                <button
+                  key={keyword}
+                  onClick={() => handleKeywordClick(keyword)}
+                  className="px-4 py-2 bg-slate-800 border border-slate-700/50 rounded-full text-slate-200 text-sm hover:bg-slate-700 transition-colors cursor-pointer"
+                >
+                  {keyword}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* 인기 검색어 */}
+          <div className="flex flex-col gap-4 flex-1">
+            <div className="flex items-center gap-2 text-slate-400">
+              <FontAwesomeIcon icon={faArrowTrendUp} className="size-4" />
+              <span className="text-sm font-medium">인기 검색어</span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {trendingSearches.map((keyword, index) => (
+                <button
+                  key={keyword}
+                  onClick={() => handleKeywordClick(keyword)}
+                  className={twMerge(
+                    "px-4 py-2 bg-slate-800 border border-slate-700/50 rounded-full text-sm transition-colors cursor-pointer",
+                    index === 0 ? "text-orange-400 border-orange-400/20" : "text-slate-200 hover:bg-slate-700"
+                  )}
+                >
+                  {keyword}
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 결과 섹션 (Figma: Section/1) */}
+        <section className="w-full">
+          {loading ? (
+            <div className="flex justify-center py-20">
+              <Spinner message="AI가 당신의 취향을 분석하고 있습니다..." />
+            </div>
+          ) : results.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-12 gap-x-4 place-items-center">
+              {results.map((movie) => (
+                <div key={movie.id} className="flex flex-col gap-4 w-[256px] group">
+                  <div className="relative">
+                    <Card movie={movie} type="portrait" className="w-full" />
+                    {movie.ai_score && (
+                      <Badge variant="medium" className="absolute top-3 left-3 shadow-lg">
+                        AI Match {movie.ai_score}%
+                      </Badge>
+                    )}
+                  </div>
+                  <div className="space-y-1">
+                    <h3 className="text-slate-200 font-bold text-lg truncate group-hover:text-orange-400 transition-colors">
+                      {movie.name || movie.title}
+                    </h3>
+                    <div className="flex items-center gap-2 text-slate-400 text-sm">
+                      <span>{movie.first_air_date?.split('-')[0] || movie.release_date?.split('-')[0]}</span>
+                      <span>•</span>
+                      <span>{movie.genres?.[0]?.name || '드라마'}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-20 text-slate-500">
+              <p className="text-lg italic">일치하는 추천 결과가 없습니다.</p>
+            </div>
+          )}
+        </section>
       </main>
+
+      <Footer />
     </div>
   );
-}
+};
 
 export default Search;

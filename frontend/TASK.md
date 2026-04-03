@@ -29,7 +29,7 @@
 ## frontend 구조는 다음과 같다
 frontend/
 ├── public/
-│   └── video.mp4            ← 히어로 영상
+│   └── kuku1.mp4            ← 히어로 영상
 ├── src/
 │   ├── api/
 │   │   └── axios.js         ← API 통신 설정
@@ -39,17 +39,20 @@ frontend/
 │.  │   │   ├── Chatbot.jsx  ← 챗봇 전체 구조
 │.  │   │   ├── MessageList.jsx  ← 챗봇 메시지 목록
 │.  │   │   └── Chatbot.css  ← 챗봇 스타일
+│.  │   └── services/        ← 백엔드 서비스 폴더
+│.  │   │   └── api.js       ← 백엔드 서버와 통신
 │   │   ├── Card.jsx         ← 드라마 카드 (3종류)
 │   │   ├── Category.jsx     ← 카테고리별 목록
 │   │   ├── ErrorPage.jsx    ← 404 에러 페이지
 │   │   ├── Footer.jsx       ← 하단 푸터
-│   │   ├── Nav.jsx       ← 상단 헤더 + 검색
+│   │   ├── Nav.jsx          ← 상단 헤더 + 검색
 │   │   ├── Home.jsx         ← 메인 페이지
 │   │   ├── MovieDetail.jsx  ← 드라마 상세
 │   │   ├── ContentRow.jsx   ← 드라마 목록 섹션 (3종류)
 │   │   └── Ui.jsx           ← 공통 UI 컴포넌트
 │   │   └── ReviewArea.jsx   ← 리뷰 영역
-│   │   └── Search.jsx   ← 리뷰 영역
+│   │   └── Ai.jsx           ← 와쿠와쿠 Ai 영역
+│   │   └── Mypage.jsx       ← 마이페이지 영역
 │   ├── App.jsx              ← 레이아웃 + 데이터 로딩
 │   ├── index.css            ← Tailwind + 폰트 설정
 │   └── main.jsx             ← React 앱 시작점

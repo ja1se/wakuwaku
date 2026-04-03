@@ -96,7 +96,19 @@ export const Accordion = ({ title, children, defaultOpen = false, className }) =
 };
 
 // 4. Form Components (Search & Chatbot)
-export const SearchForm = ({ placeholder = "영화, TV 프로그램, 배우 검색", className, onSearch }) => {
+export const SearchForm = ({ 
+  placeholder = "영화, TV 프로그램, 배우 검색", 
+  className, 
+  onSearch,
+  value,
+  onChange 
+}) => {
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      onSearch?.();
+    }
+  };
+
   return (
     <div className={twMerge("relative w-full max-w-[768px] group", className)}>
       <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-500 z-10 group-focus-within:text-orange-400 transition-colors">
@@ -106,9 +118,12 @@ export const SearchForm = ({ placeholder = "영화, TV 프로그램, 배우 검�
         <input 
           type="text" 
           placeholder={placeholder}
+          value={value}
+          onChange={(e) => onChange?.(e.target.value)}
+          onKeyDown={handleKeyDown}
           className="bg-transparent border-none outline-none text-slate-200 text-lg flex-1 placeholder:text-slate-500"
         />
-        <Button size="medium" className="min-w-[92px]" onClick={onSearch}>검색</Button>
+        <Button size="medium" className="min-w-[92px]" onClick={() => onSearch?.()}>검색</Button>
       </div>
     </div>
   );

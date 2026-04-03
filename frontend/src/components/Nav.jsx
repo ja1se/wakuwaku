@@ -79,9 +79,9 @@ export default function Nav() {
           <Link to="/search" className="p-1">
             <img src={imgSearchIcon} alt="Search" className="w-7 h-7" />
           </Link>
-          <button className="p-1">
+          <Link to="/mypage" className="p-1">
             <img src={imgMypageIcon} alt="My Page" className="w-7 h-7" />
-          </button>
+          </Link>
         </div>
       </div>
     </header>

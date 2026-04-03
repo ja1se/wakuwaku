@@ -38,8 +38,6 @@ export default function App() {
         setOnAir(onAirRes.results || []);
         setSuspense(suspenseRes.results || []);
         setMystery(mysteryRes.results || []);
-        
-        // gourmetRes is an array of data objects because of the axios interceptor
         setGourmet(gourmetRes || []);
 
       } catch (error) {
