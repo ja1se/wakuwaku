@@ -9,15 +9,19 @@ import {
   faStar,
   faHeart,
   faShareNodes,
-  faChevronDown,
-  faChevronLeft,
-  faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { twMerge } from "tailwind-merge";
-import { Spinner, Button, PlaceholderMessage, Accordion } from "./Ui.jsx";
+import {
+  Spinner,
+  Button,
+  PlaceholderMessage,
+  Accordion,
+  Pagination,
+} from "./Ui.jsx";
 import ContentRow from "./ContentRow";
 
 const MovieDetail = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [drama, setDrama] = useState(null);
   const [credits, setCredits] = useState(null);
@@ -28,7 +32,9 @@ const MovieDetail = () => {
   const [activeSeason, setActiveSeason] = useState(1);
   const [activeTab, setActiveTab] = useState("episode"); // 'episode', 'review', 'similar'
   const [currentPage, setCurrentPage] = useState(1);
-
+  useEffect(() => {
+    window.scrollTo(0, 0); // 페이지 로드 시 스크롤을 맨 위로!
+  }, [id]);
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
@@ -186,7 +192,9 @@ const MovieDetail = () => {
                 {/* 시즌 선택 버튼 */}
                 <div className="relative w-full max-w-[320px] z-50">
                   <Accordion
-                    title={`시즌 ${activeSeason} : ${episodes.length}부작`} className="bg-slate-800 rounded-[12px]">
+                    title={`시즌 ${activeSeason} : ${episodes.length}부작`}
+                    className="bg-slate-800 rounded-[12px]"
+                  >
                     <div className="absolute top-full left-0 w-full mt-2 bg-slate-800 border border-slate-700 rounded-[12px] shadow-2xl overflow-hidden">
                       <div className="flex flex-col gap-1 max-h-[132px] overflow-y-auto no-scrollbar py-2">
                         {drama.seasons
@@ -241,7 +249,7 @@ const MovieDetail = () => {
           <button
             onClick={() => setActiveTab("episode")}
             className={twMerge(
-              "px-8 pt-6 pb-[26px] text-base font-medium transition-colors relative",
+              "px-8 pt-6 pb-[26px] text-base font-medium transition-colors relative cursor-pointer",
               activeTab === "episode" ? "text-orange-400" : "text-slate-400",
             )}
           >
@@ -253,7 +261,7 @@ const MovieDetail = () => {
           <button
             onClick={() => setActiveTab("review")}
             className={twMerge(
-              "px-8 pt-6 pb-[26px] text-base font-medium transition-colors relative",
+              "px-8 pt-6 pb-[26px] text-base font-medium transition-colors relative cursor-pointer",
               activeTab === "review" ? "text-orange-400" : "text-slate-400",
             )}
           >
@@ -265,7 +273,7 @@ const MovieDetail = () => {
           <button
             onClick={() => setActiveTab("similar")}
             className={twMerge(
-              "px-8 pt-6 pb-[26px] text-base font-medium transition-colors relative",
+              "px-8 pt-6 pb-[26px] text-base font-medium transition-colors relative cursor-pointer",
               activeTab === "similar" ? "text-orange-400" : "text-slate-400",
             )}
           >
@@ -301,42 +309,12 @@ const MovieDetail = () => {
                 ))}
               </div>
 
-              {/* Pagination (Figma 3:130) */}
-              {totalPages > 1 && (
-                <div className="flex items-center justify-center gap-2 pt-12">
-                  <button
-                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                    className="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-950 text-slate-400 hover:text-slate-200 transition-colors"
-                  >
-                    <FontAwesomeIcon icon={faChevronLeft} className="text-sm" />
-                  </button>
-                  {[...Array(totalPages)].map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setCurrentPage(i + 1)}
-                      className={twMerge(
-                        "w-10 h-10 rounded-lg flex items-center justify-center text-base font-bold transition-all shadow-lg",
-                        currentPage === i + 1
-                          ? "bg-orange-400 text-slate-950"
-                          : "bg-slate-950 text-slate-400 hover:text-slate-200",
-                      )}
-                    >
-                      {i + 1}
-                    </button>
-                  ))}
-                  <button
-                    onClick={() =>
-                      setCurrentPage((p) => Math.min(totalPages, p + 1))
-                    }
-                    className="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-950 text-slate-400 hover:text-slate-200 transition-colors"
-                  >
-                    <FontAwesomeIcon
-                      icon={faChevronRight}
-                      className="text-sm"
-                    />
-                  </button>
-                </div>
-              )}
+              {/* Pagination */}
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={(page) => setCurrentPage(page)}
+              />
             </div>
           )}
 

@@ -3,10 +3,12 @@ import { twMerge } from 'tailwind-merge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faPlay, 
-  faMagnifyingGlass, 
+  faMagnifyingGlass,
   faPaperPlane, 
   faChevronDown, 
-  faChevronUp 
+  faChevronUp,
+  faChevronLeft,
+  faChevronRight
 } from '@fortawesome/free-solid-svg-icons';
 
 //1. Button Components (Variants: primary, secondary, Sizes: large, medium, small)
@@ -73,7 +75,8 @@ export const Accordion = ({ title, children, defaultOpen = false, className }) =
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={twMerge(
-          "w-full flex items-center justify-between px-8 py-4 rounded-[12px] bg-slate-800 border-2 transition-all",
+          "w-full flex items-center justify-between px-8 py-4 rounded-[12px] bg-slate-800 border-2 transition-all cursor-pointer",
+          "gap-2",
           isOpen ? "border-orange-400" : "border-transparent hover:border-slate-400"
         )}
       >
@@ -167,7 +170,7 @@ export const FAB = ({ icon = faPlay, className, onClick }) => {
     <button 
       onClick={onClick}
       className={twMerge(
-        "size-[52px] bg-orange-400 rounded-full flex items-center justify-center shadow-[0px_8px_24px_0px_rgba(251,146,60,0.5)] transition-all duration-300 hover:scale-110 hover:bg-orange-300 active:scale-95 group",
+        "size-[52px] bg-orange-400 rounded-full flex items-center justify-center shadow-[0px_8px_24px_0px_rgba(251,146,60,0.5)] transition-all duration-300 hover:scale-110 hover:bg-orange-300 active:scale-95 group cursor-pointer",
         className
       )}
     >
@@ -264,3 +267,49 @@ export default function Ui() {
     </div>
   );
 }
+
+// 10. Pagination Component
+export const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+  if (totalPages <= 1) return null;
+
+  return (
+    <div className="flex items-center justify-center gap-2 pt-12">
+      {/* 이전 버튼 */}
+      <button
+        onClick={() => onPageChange(Math.max(1, currentPage - 1))}
+        disabled={currentPage === 1}
+        className="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-950 text-slate-400 hover:text-slate-200 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+      >
+        <FontAwesomeIcon icon={faChevronLeft} className="text-sm cursor-pointer" />
+      </button>
+
+      {/* 페이지 번호들 */}
+      {[...Array(totalPages)].map((_, i) => {
+        const pageNum = i + 1;
+        return (
+          <button
+            key={pageNum}
+            onClick={() => onPageChange(pageNum)}
+            className={twMerge(
+              "w-10 h-10 rounded-lg flex items-center justify-center text-base font-bold transition-all shadow-lg cursor-pointer",
+              currentPage === pageNum
+                ? "bg-orange-400 text-slate-950"
+                : "bg-slate-950 text-slate-400 hover:text-slate-200",
+            )}
+          >
+            {pageNum}
+          </button>
+        );
+      })}
+
+      {/* 다음 버튼 */}
+      <button
+        onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
+        disabled={currentPage === totalPages}
+        className="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-950 text-slate-400 hover:text-slate-200 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+      >
+        <FontAwesomeIcon icon={faChevronRight} className="text-sm cursor-pointer" />
+      </button>
+    </div>
+  );
+};
