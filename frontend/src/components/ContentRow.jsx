@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Card from './Card';
 import { twMerge } from 'tailwind-merge';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { useNavigate } from 'react-router';
+
+// Swiper styles
+import 'swiper/css';
 
 const ContentRow = ({ title, fetchFunction, movies: initialMovies, type = 'portrait', showLogo = false, className }) => {
+  const navigate = useNavigate();
   const [movies, setMovies] = useState(initialMovies || []);
   const [loading, setLoading] = useState(!initialMovies);
 
@@ -19,9 +25,6 @@ const ContentRow = ({ title, fetchFunction, movies: initialMovies, type = 'portr
       try {
         setLoading(true);
         const response = await fetchFunction();
-
-        // axios interceptor가 response.data를 반환하므로 response가 곧 데이터임
-        // Gourmet(배열)과 일반 API(results) 구조 모두 대응
         const data = Array.isArray(response) 
           ? response 
           : (response.results || response.data?.results || []);
@@ -40,8 +43,13 @@ const ContentRow = ({ title, fetchFunction, movies: initialMovies, type = 'portr
   if (loading) return <div className="px-14 py-10 text-slate-500 animate-pulse">데이터를 불러오는 중...</div>;
   if (!movies || movies.length === 0) return null;
 
+  // 카드 타입별 설정
+  const getSpaceBetween = () => {
+    return 20; // 20px (gap-5)
+  };
+
   return (
-    <section className={twMerge("px-14 py-8", className)}>
+    <section className={twMerge("px-14 py-8 relative group/row", className)}>
       {/* Header 영역 */}
       <div className="flex items-center gap-3 mb-8">
         {showLogo && (
@@ -52,22 +60,26 @@ const ContentRow = ({ title, fetchFunction, movies: initialMovies, type = 'portr
         </h2>
       </div>
 
-      {/* 가로 스크롤 영역 */}
-      <div 
-        className={twMerge(
-          "flex overflow-x-auto pb-8 -mx-14 px-14 py-4 -my-4 scroll-smooth no-scrollbar",
-          type === 'portrait' && "gap-6",
-          type === 'landscape' && "gap-6",
-          type === 'episode' && "gap-[10px]"
-        )}
-      >
-        {movies.map((movie) => (
-          <Card 
-            key={movie.id} 
-            movie={movie} 
-            type={type} 
-          />
-        ))}
+      {/* Swiper 가로 슬라이드 영역 */}
+      <div className="relative -mx-14 px-14">
+        <Swiper
+          slidesPerView={'auto'}
+          spaceBetween={getSpaceBetween()}
+          className="!overflow-visible"
+        >
+          {movies.map((movie) => (
+            <SwiperSlide 
+              key={movie.id} 
+              className="!w-auto"
+            >
+              <Card 
+                movie={movie} 
+                type={type} 
+                onClick={() => navigate(`/tv/${movie.id}`)}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
     </section>
   );

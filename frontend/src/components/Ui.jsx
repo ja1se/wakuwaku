@@ -288,7 +288,7 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex items-center justify-center gap-2 pt-12">
+    <div className="flex items-center justify-center gap-2 pt-8">
       {/* 이전 버튼 */}
       <button
         onClick={() => onPageChange(Math.max(1, currentPage - 1))}

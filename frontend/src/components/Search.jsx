@@ -138,27 +138,15 @@ const Search = () => {
               <Spinner message="AI가 당신의 취향을 분석하고 있습니다..." />
             </div>
           ) : results.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-12 gap-x-4 place-items-center">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 place-items-center">
               {results.map((movie) => (
-                <div key={movie.id} className="flex flex-col gap-4 w-[256px] group">
-                  <div className="relative">
-                    <Card movie={movie} type="portrait" className="w-full" />
-                    {movie.ai_score && (
-                      <Badge variant="medium" className="absolute top-3 left-3 shadow-lg">
-                        AI Match {movie.ai_score}%
-                      </Badge>
-                    )}
-                  </div>
-                  <div className="space-y-1">
-                    <h3 className="text-slate-200 font-bold text-lg truncate group-hover:text-orange-400 transition-colors">
-                      {movie.name || movie.title}
-                    </h3>
-                    <div className="flex items-center gap-2 text-slate-400 text-sm">
-                      <span>{movie.first_air_date?.split('-')[0] || movie.release_date?.split('-')[0]}</span>
-                      <span>•</span>
-                      <span>{movie.genres?.[0]?.name || '드라마'}</span>
-                    </div>
-                  </div>
+                <div key={movie.id} className="relative">
+                  <Card movie={movie} type="portrait" />
+                  {movie.ai_score && (
+                    <Badge variant="medium" className="absolute top-2 left-2 lg:top-3 lg:left-3 shadow-lg z-20 scale-75 lg:scale-100 origin-top-left">
+                      AI Match {movie.ai_score}%
+                    </Badge>
+                  )}
                 </div>
               ))}
             </div>

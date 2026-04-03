@@ -74,7 +74,6 @@ export default function Category() {
 
   // type 바뀌면 페이지 초기화
   useMemo(() => setCurrentPage(1), [type]);
-
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center">
@@ -87,7 +86,7 @@ export default function Category() {
     <div className="min-h-screen bg-slate-950 text-slate-200">
 
       {/* ── 1. 배너 ── */}
-      <section className="relative w-full h-[480px] overflow-hidden">
+      <section className="relative w-full h-[320px] lg:h-[480px] overflow-hidden">
         {/* 배경 이미지 */}
         {backdropUrl ? (
           <img
@@ -104,21 +103,21 @@ export default function Category() {
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/70 via-transparent to-transparent" />
 
         {/* 텍스트 콘텐츠 */}
-        <div className="relative z-10 h-full flex flex-col justify-end px-14 pb-14 max-w-[1280px] mx-auto">
+        <div className="relative z-10 h-full flex flex-col justify-end px-6 lg:px-14 pb-8 lg:pb-14 max-w-[1280px] mx-auto">
           {/* 카테고리 뱃지 */}
-          <span className="inline-flex items-center bg-orange-400/20 text-orange-400 text-xs font-bold px-3 py-1 rounded-[4px] w-fit mb-4 tracking-widest uppercase">
+          <span className="inline-flex items-center bg-orange-400/20 text-orange-400 text-[10px] lg:text-xs font-bold px-2 py-0.5 lg:px-3 lg:py-1 rounded-[4px] w-fit mb-3 lg:mb-4 tracking-widest uppercase">
             {meta.title}
           </span>
 
-          <h1 className="text-[48px] font-bold leading-tight text-white mb-3">
+          <h1 className="text-[32px] lg:text-[48px] font-bold leading-tight text-white mb-2 lg:mb-3">
             {meta.title}
           </h1>
-          <p className="text-slate-400 text-lg max-w-[560px] leading-relaxed">
+          <p className="text-slate-400 text-sm lg:text-lg max-w-[560px] leading-relaxed line-clamp-2 lg:line-clamp-none">
             {meta.description}
           </p>
 
           {/* 총 작품 수 */}
-          <p className="text-slate-500 text-sm mt-4 font-medium">
+          <p className="text-slate-500 text-xs lg:text-sm mt-3 lg:mt-4 font-medium">
             총{' '}
             <span className="text-orange-400 font-bold">{movies?.length || 0}</span>
             개 작품
@@ -127,21 +126,21 @@ export default function Category() {
       </section>
 
       {/* ── 2. 카드 그리드 ── */}
-      <section className="max-w-[1280px] mx-auto px-14 pt-16 pb-24">
+      <section className="max-w-[1280px] mx-auto px-6 lg:px-14 pt-10 lg:pt-16 pb-24">
 
         {/* 섹션 헤더 */}
-        <div className="flex items-center justify-between mb-10">
-          <h2 className="text-[32px] font-bold text-slate-100">
+        <div className="flex items-center justify-between mb-8 lg:mb-10">
+          <h2 className="text-2xl lg:text-[32px] font-bold text-slate-100">
             {meta.title}
           </h2>
-          <span className="text-slate-500 text-sm">
+          <span className="text-slate-500 text-xs lg:text-sm">
             {currentPage} / {totalPages || 1} 페이지
           </span>
         </div>
 
         {/* 카드 그리드 */}
         {paginatedMovies.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-5 gap-y-10">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 place-items-center">
             {paginatedMovies.map((movie) => (
               <div
                 key={movie.id}
