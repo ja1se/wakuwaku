@@ -27,14 +27,13 @@ export default function Nav() {
       setQuery('')
     }
   }
-
-  const navLinks = [
-    { label: '홈', to: '/' },
-    { label: '인기 차트', to: '/?category=popular' },
-    { label: '따끈 신작', to: '/?category=onair' },
-    { label: '와쿠와쿠 AI', to: '/?category=ai' },
-  ]
-
+// Category로 연결
+const navLinks = [
+  { label: '홈', to: '/' },
+  { label: '인기 차트', to: '/category/popular' },
+  { label: '따끈 신작', to: '/category/onair' },
+  { label: '와쿠와쿠 AI', to: '/?category=ai' },
+];
 return (
     <header
       className={twMerge(
