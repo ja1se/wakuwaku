@@ -65,7 +65,6 @@ const MovieDetail = () => {
 
     fetchInitialData();
   }, [id]);
-
   const handleSeasonChange = async (seasonNum) => {
     try {
       setActiveSeason(seasonNum);

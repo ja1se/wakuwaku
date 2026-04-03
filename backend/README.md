@@ -99,13 +99,15 @@ deactivate
 ```
 backend/
 ├── app/
-│   ├── __init__.py
 │   ├── main.py
-│   └── routes/
-├── tests/
+│   └── routers/
+│       ├── tmdb.py
+│       └── ai.py
+├── services/
+│       ├── tmdb_client.py
+│       └── sentiment.py
 ├── .env
-├── .env.example
-├── .gitignore
+├── main.py
 ├── requirements.txt
 └── README.md
 ```
