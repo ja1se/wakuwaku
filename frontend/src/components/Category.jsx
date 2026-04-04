@@ -150,7 +150,7 @@ export default function Category() {
                 <Card
                   movie={movie}
                   type="portrait"
-                  className="w-full flex-none"
+                  className="aspect-[2/3] object-cover"
                 />
               </div>
             ))}
