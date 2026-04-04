@@ -21,9 +21,9 @@
 
 ## 3. Cards & Content Rows
 - **Radius**: `0.75rem (12px)`
-- **Portrait Card**: `256px x 384px`, Hover 시 `scale(1.05)`, `duration: 300ms`
-- **Landscape Card**: `450px x 253px`, Hover 시 `scale(1.02)`
-- **Episode Card**: `252px x 198px`, Hover 시 이미지 `scale(1.1)`
+- **Portrait Card**: `256px x 384px`, Hover 시 `scale(1.02)`, `duration: 300ms`
+- **Landscape Card**: `450px x 253px`, Hover 시 `scale(1.05)`
+- **Episode Card**: `252px x 198px`, Hover 시 컨테이너 `scale(1.05)`, 이미지 `scale(1.05)`
 
 ## 4. Button System
 모든 버튼은 Hover 시 `bg-white/10` 오버레이, Active 시 `scale-95` 효과를 적용한다.
@@ -32,9 +32,7 @@
 | :--- | :--- | :--- | :--- |
 | **Btn/Primary** | Large/Medium/Small | Bg: `#FB923C`, Text: `#020617` | `variant="primary"` |
 | **Btn/Secondary** | Large/Medium/Small | Bg: `#334155`, Text: `#E2E8F0` | `variant="secondary"` |
-| **FAB** | - | Bg: `#FB923C`, Shadow: Orange (50%) | Hover: `scale-110` |
-
-- **FAB Shadow**: `0px 8px 24px 0px rgba(251,146,60,0.5)`
+| **FAB** | - | Bg: `#FB923C`, box-shadow: 0 0 4px rgba(0, 0, 0, 0.25); | Hover: `scale-105` |
 
 ## 5. Forms & Interactive Elements
 - **Search Form**:

@@ -297,7 +297,7 @@ const MovieDetail = () => {
               </div>
 
               {/* Episodes Grid (Figma 3:90) */}
-              <div className="grid grid-cols-4 gap-x-6 gap-y-12 w-full">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12 w-full">
                 {currentEpisodes.map((episode) => (
                   <Card
                     key={episode.id}

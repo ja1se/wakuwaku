@@ -154,7 +154,7 @@ export const ChatbotForm = ({ className, onSend }) => {
       />
       <button 
         type="submit"
-        className="bg-orange-400 text-slate-950 w-8 h-8 rounded-[8px] flex items-center justify-center hover:bg-orange-300 active:scale-90 transition-all shrink-0"
+        className="bg-orange-400 text-slate-950 w-8 h-8 rounded-[8px] flex items-center justify-center cursor-pointer hover:bg-orange-300 active:scale-90 transition-all shrink-0"
       >
         <FontAwesomeIcon icon={faPaperPlane} size="sm" />
       </button>
@@ -163,33 +163,29 @@ export const ChatbotForm = ({ className, onSend }) => {
 };
 
 // 5. Profile Component
-export const Profile = ({ src, className }) => {
+export const Profile = ({ src = "/assets/Profile-kukucat.png", className }) => {
   return (
-    <div className={twMerge("relative size-[56px] rounded-full p-[2px] bg-orange-400 shadow-inner group cursor-pointer", className)}>
-      <div className="w-full h-full rounded-full overflow-hidden bg-slate-800 flex items-center justify-center">
-        {src ? (
-          <img src={src} alt="profile" className="w-full h-full object-cover" />
-        ) : (
-          <div className="text-orange-400 font-bold">K</div>
-        )}
-      </div>
-      {/* Decorative overlay */}
-      <div className="absolute inset-0 rounded-full shadow-[inset_1px_2px_7.4px_0px_rgba(0,0,0,0.1)] pointer-events-none" />
+    <div className={twMerge("relative size-[56px] rounded-full p-[1px] bg-orange-400", className)}>
+        <img src={src} alt="profile" className="w-full h-full object-cover" />
     </div>
   );
 };
 
 // 6. FAB (Floating Action Button)
-export const FAB = ({ icon = faPlay, className, onClick }) => {
+export const FAB = ({ className, onClick }) => {
   return (
     <button 
       onClick={onClick}
       className={twMerge(
-        "size-[52px] bg-orange-400 rounded-full flex items-center justify-center shadow-[0px_8px_24px_0px_rgba(251,146,60,0.5)] transition-all duration-300 hover:scale-110 hover:bg-orange-300 active:scale-95 group cursor-pointer",
+        "relative w-[60px] h-[53px] transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer flex items-center justify-center drop-shadow-lg",
         className
       )}
     >
-      <FontAwesomeIcon icon={icon} className="text-slate-950 text-xl group-hover:scale-110 transition-transform" />
+      <img 
+        src="/assets/kuku-fab.svg" 
+        alt="Kuku FAB" 
+        className="w-full h-full object-contain"
+      />
     </button>
   );
 };

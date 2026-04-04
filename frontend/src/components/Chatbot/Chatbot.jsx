@@ -50,7 +50,7 @@ const Chatbot = ({ onClose }) => {
         </div>
         <button 
           onClick={onClose}
-          className="text-slate-400 hover:text-white transition-colors p-2"
+          className="text-slate-400 cursor-pointer hover:text-white transition-colors p-1"
         >
           <FontAwesomeIcon icon={faXmark} className="text-xl" />
         </button>

@@ -17,13 +17,8 @@ const MessageList = ({ messages }) => {
           >
             {/* Bot Icon */}
             {isBot && (
-              <div className="w-6 h-6 rounded-full bg-slate-900 flex items-center justify-center shrink-0 mt-1">
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M2 12.5C2 12.5 4 14 8 14C12 14 14 12.5 14 12.5" stroke="#FB923C" strokeWidth="1.5" strokeLinecap="round"/>
-                  <circle cx="5.3" cy="6.87" r="1" fill="#FB923C"/>
-                  <circle cx="10.7" cy="6.87" r="1" fill="#FB923C"/>
-                  <rect x="2" y="3" width="12" height="10" rx="3" stroke="#FB923C" strokeWidth="1.5"/>
-                </svg>
+              <div className="flex w-8 h-8 items-center justify-center rounded-full bg-slate-900 shrink-0 overflow-hidden">
+                <img src="/assets/type=Kuku.svg" alt="bot" className="w-6 h-full object-contain" />
               </div>
             )}
 
