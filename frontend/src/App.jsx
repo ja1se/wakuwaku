@@ -10,8 +10,9 @@ import { faMessage } from '@fortawesome/free-solid-svg-icons';
 export default function App() {
   const [popular, setPopular] = useState(null);
   const [onAir, setOnAir] = useState(null);
+  const [topRated, setTopRated] = useState(null);
   const [suspense, setSuspense] = useState(null);
-  const [mystery, setMystery] = useState(null);
+  const [career, setCareer] = useState(null);
   const [gourmet, setGourmet] = useState(null);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -23,21 +24,24 @@ export default function App() {
         const [
           popularRes,
           onAirRes,
+          topRatedRes,
           suspenseRes,
-          mysteryRes,
+          careerRes,
           gourmetRes
         ] = await Promise.all([
           tmdbService.getPopular(),
           tmdbService.getOnAir(),
+          tmdbService.getTopRated(),
           tmdbService.getSuspense(),
-          tmdbService.getMystery(),
+          tmdbService.getCareer(),
           tmdbService.getGourmet()
         ]);
 
         setPopular(popularRes.results || []);
         setOnAir(onAirRes.results || []);
+        setTopRated(topRatedRes.results || []);
         setSuspense(suspenseRes.results || []);
-        setMystery(mysteryRes.results || []);
+        setCareer(careerRes || []);
         setGourmet(gourmetRes || []);
 
       } catch (error) {
@@ -54,7 +58,7 @@ export default function App() {
     <>
       <Nav />
       <main>
-        <Outlet context={{ popular, onAir, suspense, mystery, gourmet, loading }} />
+        <Outlet context={{ popular, onAir, topRated, suspense, career, gourmet, loading }} />
       </main>
       <Footer />
 

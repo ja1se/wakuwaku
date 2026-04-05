@@ -32,7 +32,7 @@ export default function Nav() {
     { label: "홈", to: "/" },
     { label: "인기 차트", to: "/category/popular" },
     { label: "따끈 신작", to: "/category/onair" },
-    { label: "와쿠와쿠 AI", to: "/ai" },
+    { label: "와쿠와쿠 화제작", to: "/category/toprated" },
   ];
   return (
     <header

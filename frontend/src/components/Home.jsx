@@ -5,7 +5,7 @@ import { faPlay } from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
   const navigate = useNavigate();
-  const { popular, onAir, suspense, mystery, gourmet, loading } =
+  const { popular, onAir, suspense, career, gourmet, loading } =
     useOutletContext();
 
   // 히어로 섹션 데이터 (첫 번째 인기작)
@@ -92,8 +92,8 @@ export default function Home() {
             type="portrait"
           />
           <ContentRow
-            title="베일에 싸인 미스터리"
-            movies={mystery}
+            title="전문직들의 세계, 직업물"
+            movies={career}
             type="portrait"
           />
           <ContentRow

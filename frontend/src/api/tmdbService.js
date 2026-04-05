@@ -14,24 +14,35 @@ export const tmdbService = {
   getOnAir: () => tmdbApi.get('/discover/tv', { 
     params: { sort_by: 'first_air_date.desc' } 
   }),
+  getTopRated: () => tmdbApi.get('/discover/tv', { 
+    params: { sort_by: 'vote_average.desc&vote_count.gte=200' } 
+  }),
   
   // 2. 장르별 탐색1 (Suspense,80)
   getSuspense: () => tmdbApi.get('/discover/tv', { 
     params: { with_genres: 80 } 
   }),
-  // 3. 장르별 탐색2 (Mystery,96)
-  getMystery: () => tmdbApi.get('/discover/tv', { 
-    params: { with_genres: 96 } 
-  }),
+  // 3. 장르별 탐색2 (직업물,id)
+  getCareer: async () => {
+    const ids = [
+      75701, // 언내추럴
+      67504, // 중쇄를 찍자!
+      55925, // 한자와 나오키
+      46234, // 리갈 하이
+      19416, // 의룡
+    ];
+    const requests = ids.map(id => tmdbApi.get(`/tv/${id}`));
+    return Promise.all(requests);
+  },
 
   // 4. 장르별 탐색3 (Gourmet/Cooking)
   getGourmet: async () => {
     const ids = [
       55582, // 고독한 미식가
-      63789, // 심야식당
       47008, // 심야식당
       110397, // 와카코와 술
       57551, // 빵과 스프, 고양이와 함께하기 좋은 날
+      154916, // 마이코네 행복한 밥상
     ];
     const requests = ids.map(id => tmdbApi.get(`/tv/${id}`));
     return Promise.all(requests);

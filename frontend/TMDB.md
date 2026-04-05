@@ -15,15 +15,24 @@
 | **Popular** | `/discover/tv` | `sort_by=popularity.desc` |
 | **On Air** | `/discover/tv` | `sort_by=first_air_date.desc` |
 | **Suspense** | `/discover/tv` | `with_genres=80` |
-| **Mystery** | `/discover/tv` | `with_genres=96` |
+| **On Rated** | `/discover/tv` | `sort_by=vote_average.desc&vote_count.gte=200` |
 | **Similar Contents** | `/tv/{id}/similar` | Contextual Recommendation |
 
-### B. Gourmet/Cooking (Manual Curation)
+### B. Career & Gourmet/Cooking (Manual Curation)
 요리/미식 카테고리는 키워드 필터링 대신 아래 ID 리스트를 사용하여 개별 호출(`Promise.all`)한다.
+**Career (직업물)**
+- **언내추럴**: 75701
+- **중쇄를 찍자!**: 67504
+- **한자와 나오키**: 55925
+- **리갈 하이**: 46234
+- **의룡**: 19416
+
+**Gourmet (요리/미식)**
 - **고독한 미식가**: 55582
-- **심야식당**: 63789, 47008
+- **심야식당**: 47008
 - **와카코와 술**: 110397
 - **빵과 스프, 고양이와 함께하기 좋은 날**: 57551
+- **마이코네 행복한 밥상**: 154916
 
 ## 3. Detail & Episode Strategy
 - **Detail Info**: `/tv/{series_id}` (타이틀, 별점, 줄거리 등)

@@ -15,13 +15,17 @@ const CATEGORY_META = {
     title: '오늘 방영 작품',
     description: '지금 이 순간에도 방영 중인 따끈따끈한 작품들.',
   },
+  toprated: {
+    title: '와쿠와쿠 화제작',
+    description: '높은 평점과 뜨거운 찬사를 받은 검증된 명작들.',
+  },
   suspense: {
     title: '심장을 쫄깃하게 하는 서스펜스',
     description: '손에 땀을 쥐게 만드는 긴장감 넘치는 작품들.',
   },
-  mystery: {
-    title: '베일에 싸인 미스터리',
-    description: '한 번 보면 멈출 수 없는 미스터리 장르 컬렉션.',
+  career: {
+    title: '전문직들의 세계, 직업물',
+    description: '자신의 분야에서 최선을 다하는 사람들의 뜨거운 이야기.',
   },
   gourmet: {
     title: '맛있는 이야기, 고메 시리즈',
@@ -34,7 +38,7 @@ const ITEMS_PER_PAGE = 12;
 export default function Category() {
   const { type } = useParams();
   const navigate = useNavigate();
-  const { popular, onAir, suspense, mystery, gourmet, loading } = useOutletContext();
+  const { popular, onAir, topRated, suspense, career, gourmet, loading } = useOutletContext();
   const [currentPage, setCurrentPage] = useState(1);
 
   // type → 데이터 매핑
@@ -42,12 +46,13 @@ export default function Category() {
     const map = {
       popular: popular,
       onair: onAir,
+      toprated: topRated,
       suspense: suspense,
-      mystery: mystery,
+      career: career,
       gourmet: gourmet,
     };
     return map[type] || [];
-  }, [type, popular, onAir, suspense, mystery, gourmet]);
+  }, [type, popular, onAir, topRated, suspense, career, gourmet]);
 
   const meta = CATEGORY_META[type] || {
     title: '전체 작품',
