@@ -12,7 +12,7 @@ export const tmdbService = {
     params: { sort_by: 'popularity.desc','first_air_date.gte': '2025-01-01',include_null_first_air_dates: false } 
   }),
   getOnAir: () => tmdbApi.get('/discover/tv', { 
-    params: { sort_by: 'first_air_date.desc' } 
+    params: { sort_by: 'first_air_date.desc','vote_count.gte': 5 } 
   }),
   getTopRated: () => tmdbApi.get('/discover/tv', { 
     params: { sort_by: 'vote_average.desc','vote_count.gte': 200 } 
@@ -62,7 +62,11 @@ export const tmdbService = {
   }),
 
   // 리뷰
-  getReviews: (id) => tmdbApi.get(`/tv/${id}/reviews`),
+  getReviews: (id) => tmdbApi.get(`/tv/${id}/reviews`,{
+    params: {
+      language: 'en-US', 'jp-JP': 'ja-JP',
+    },
+  }),
 
   // 연관 콘텐츠
   getSimilar: async (id) => {

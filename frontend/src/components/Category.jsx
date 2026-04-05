@@ -18,7 +18,7 @@ const CATEGORY_META = {
     description: '지금 이 순간에도 방영 중인 따끈따끈한 작품들.',
   },
   toprated: {
-    sub: '와쿠와쿠 화제작',
+    sub: '와쿠와쿠 PICK',
     title: '와쿠와쿠가 엄선한 부동의 명작',
     description: '높은 평점과 뜨거운 찬사를 받은 검증된 명작들.',
   },

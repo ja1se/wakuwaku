@@ -22,7 +22,7 @@
 ## 3. Cards & Content Rows
 - **Radius**: `0.75rem (12px)`
 - **Portrait Card**: `256px x 384px`, Hover 시 `scale(1.02)`, `bg-white/10 오버레이`, `duration: 300ms`
-- **Landscape Card**: `450px x 253px`, Hover 시 `scale(1.05)`, `duration: 300ms`
+- **Landscape Card**: `450px x 253px`, Hover 시 `scale(1.05)`, `bg-white/10 오버레이`, `duration: 300ms`
 - **Episode Card**: `252px x 198px`, Hover 시 컨테이너 `scale(1.05)`, `duration: 300ms` `이미지 scale(1.05)`, `duration: 300ms`, `bg-black/40 오버레이`
 
 ## 4. Button System

@@ -162,7 +162,7 @@ const MovieDetail = () => {
                 {drama.vote_average?.toFixed(1)}
               </span>
               <span className="text-slate-400 text-sm ml-2">
-                ({drama.vote_count}개 리뷰)
+                (총 {drama.vote_count}명 참여)
               </span>
             </div>
 
@@ -323,9 +323,6 @@ const MovieDetail = () => {
                 <h3 className="text-[32px] font-bold text-slate-200">
                   사용자 리뷰
                 </h3>
-                <button className="text-slate-400 text-sm font-medium">
-                  더보기
-                </button>
               </div>
               {reviews.length > 0 ? (
                 <div className="flex flex-col gap-6">

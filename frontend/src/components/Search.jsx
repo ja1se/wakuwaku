@@ -15,7 +15,7 @@ const Search = () => {
   const [loading, setLoading] = useState(false);
   
   const recentSearches = ['아이 러브 유', '리갈하이', '고독한 미식가', '언내추럴'];
-  const trendingSearches = ['내 남편과 결혼해줘', '고독한 미식가', '첫사랑 DOGs', '로맨틱 어나니머스'];
+  const trendingSearches = ['앙팡', '내 남편과 결혼해줘', '고독한 미식가', '첫사랑 DOGs', '로맨틱 어나니머스'];
 
   const handleSearch = async (query = userInput) => {
     const searchQuery = typeof query === 'string' ? query : userInput;

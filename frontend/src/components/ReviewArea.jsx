@@ -25,7 +25,7 @@ const ReviewArea = ({ review, TMDB_IMAGE_BASE, className }) => {
               />
             ) : (
               <span className="text-orange-400 font-semibold text-base uppercase">
-                {review.author.substring(0, 2)}
+                {review.author.substring(0, 2) || "U"}
               </span>
             )}
           </div>
@@ -33,7 +33,7 @@ const ReviewArea = ({ review, TMDB_IMAGE_BASE, className }) => {
           {/* Author Info */}
           <div className="flex flex-col items-start">
             <p className="text-slate-200 font-semibold text-sm leading-[20px]">
-              {review.author}
+              {review.author || "Anonymous"}
             </p>
             <p className="text-slate-400 font-medium text-xs leading-[16px]">
               {new Date(review.created_at).toLocaleDateString().replace(/\. /g, '.').replace(/\.$/, '')}

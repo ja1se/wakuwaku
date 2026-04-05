@@ -51,17 +51,29 @@ export const Button = ({
 };
 
 // 2. Badge Components (Variants: large (soft), medium (solid))
-export const Badge = ({ children, variant = 'medium', className }) => {
-  const baseStyles = "inline-flex items-center justify-center font-bold tracking-tight whitespace-nowrap";
+export const Badge = ({ children, variant = 'medium', className, reviewCount }) => {
+  // 리뷰 개수 필터링 (리뷰 모드일 때만 동작)
+  if (reviewCount !== undefined && reviewCount < 10) return null;
+
+  // 상태 판별
+  const isHot = reviewCount >= 1;
+  
+  const baseStyles = "inline-flex items-center justify-center font-bold tracking-tight whitespace-nowrap transition-all";
   
   const variants = {
     large: "bg-orange-400/20 text-orange-400 px-3 py-1 rounded-[2px] text-[12px]",
     medium: "bg-orange-400 text-slate-950 px-2 py-0.5 rounded-[4px] text-[12px]",
   };
 
+  // 'HOT' 상태 : orange-600 배경과 흰색 텍스트
+  const hotStyles = isHot ? "bg-orange-600 text-white" : "";
+  
+  // 리뷰 개수가 있으면 '리뷰 n개+'
+  const content = isHot ? `HOT` : children;
+
   return (
-    <span className={twMerge(baseStyles, variants[variant], className)}>
-      {children}
+    <span className={twMerge(baseStyles, variants[variant], hotStyles, className)}>
+      {content}
     </span>
   );
 };

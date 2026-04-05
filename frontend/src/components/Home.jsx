@@ -38,11 +38,11 @@ export default function Home() {
           {hero && (
             <div className="animate-fade-in">
               <p className="text-[18px] text-slate-200 mb-10 max-w-2xl drop-shadow-lg font-medium leading-relaxed">
-                현재 인기 급상승 중인{" "}
+                현재 인기 급상승 중인 인생 일드 {" "}
                 <span className="text-orange-300 font-bold">
                   '{hero.name || hero.title}'
                 </span>{" "}
-                등 인생 일드를 AI 추천 시스템으로 만나보세요.
+              을 지금 바로 만나보세요.
               </p>
 
               {/* 버튼 */}
