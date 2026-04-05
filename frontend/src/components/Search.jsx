@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import { getRecommendations } from '../services/api';
 import { tmdbService } from '../api/tmdbService';
 import { SearchForm, Spinner, Badge } from './Ui';
@@ -8,13 +9,13 @@ import { faClock, faArrowTrendUp } from '@fortawesome/free-solid-svg-icons';
 import { twMerge } from 'tailwind-merge';
 
 const Search = () => {
+  const navigate = useNavigate();
   const [userInput, setUserInput] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   
-  // 피그마 기반 더미 데이터
-  const recentSearches = ['오펜하이머', '듄: 파트 2', '파묘', '어벤져스'];
-  const trendingSearches = ['#1 범죄도시4', '#2 에이리언', '#3 인사이드 아웃 2', '#4 혹성탈출'];
+  const recentSearches = ['아이 러브 유', '리갈하이', '고독한 미식가', '언내추럴'];
+  const trendingSearches = ['내 남편과 결혼해줘', '고독한 미식가', '첫사랑 DOGs', '로맨틱 어나니머스'];
 
   const handleSearch = async (query = userInput) => {
     const searchQuery = typeof query === 'string' ? query : userInput;
@@ -134,10 +135,14 @@ const Search = () => {
               <Spinner message="AI가 당신의 취향을 분석하고 있습니다..." />
             </div>
           ) : results.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 place-items-center">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 place-items-center">
               {results.map((movie) => (
                 <div key={movie.id} className="relative">
-                  <Card movie={movie} type="portrait" />
+                  <Card 
+                    movie={movie} 
+                    type="portrait" 
+                    onClick={() => navigate(`/tv/${movie.id}`)}
+                  />
                   {movie.ai_score && (
                     <Badge variant="medium" className="absolute top-2 left-2 lg:top-3 lg:left-3 shadow-lg z-20 scale-75 lg:scale-100 origin-top-left">
                       AI Match {movie.ai_score}%

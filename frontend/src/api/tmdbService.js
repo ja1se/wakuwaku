@@ -9,13 +9,13 @@ export const TMDB_IMAGE_BASE = {
 export const tmdbService = {
   // 1. Discover & Lists
   getPopular: () => tmdbApi.get('/discover/tv', { 
-    params: { sort_by: 'popularity.desc' } 
+    params: { sort_by: 'popularity.desc','first_air_date.gte': '2025-01-01',include_null_first_air_dates: false } 
   }),
   getOnAir: () => tmdbApi.get('/discover/tv', { 
     params: { sort_by: 'first_air_date.desc' } 
   }),
   getTopRated: () => tmdbApi.get('/discover/tv', { 
-    params: { sort_by: 'vote_average.desc&vote_count.gte=200' } 
+    params: { sort_by: 'vote_average.desc','vote_count.gte': 200 } 
   }),
   
   // 2. 장르별 탐색1 (Suspense,80)
@@ -65,5 +65,25 @@ export const tmdbService = {
   getReviews: (id) => tmdbApi.get(`/tv/${id}/reviews`),
 
   // 연관 콘텐츠
-  getSimilar: (id) => tmdbApi.get(`/tv/${id}/similar`),
+  getSimilar: async (id) => {
+    const detail = await tmdbApi.get(`/tv/${id}`);
+    const genreIds = detail.genres.map(g => g.id).join(',');
+
+    // discover 엔드포인트를 사용해 '같은 장르 + 일본 드라마'
+    const res = await tmdbApi.get('/discover/tv', {
+      params: {
+        with_genres: genreIds,            // 같은 장르
+        with_original_language: 'ja',     // 일본 드라마만
+        sort_by: 'popularity.desc',       // 인기 순으로 풍성하게
+        'vote_count.gte': 10,             // 최소한의 검증
+        page: 1
+      }
+    });
+
+    if (res.results) {
+      res.results = res.results.filter(tv => tv.id !== parseInt(id));
+    }
+    
+    return res;
+  },
 };

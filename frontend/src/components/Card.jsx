@@ -62,12 +62,12 @@ const Card = ({ movie, type = 'portrait', className, onClick, showGenre = false 
       <div 
         onClick={onClick}
         className={twMerge(
-          "flex flex-col gap-1 w-[160px] lg:w-[256px] group cursor-pointer transition-all duration-300 hover:scale-102 hover:z-10",
+          "flex flex-col gap-1 w-[160px] lg:w-[256px] group cursor-pointer transition-all duration-300 hover:scale-102 z-10",
           className
         )}
       >
         {/* Image Container */}
-        <div className="relative w-full h-[240px] lg:h-[384px] rounded-[12px] overflow-hidden border border-slate-800 shadow-lg transition-all duration-300">
+        <div className="relative w-full h-[240px] lg:h-[384px] rounded-[12px] overflow-hidden border border-slate-800 shadow-lg transition-all">
           {(!posterUrl || imgError) ? (
             <FallbackUI />
           ) : (
@@ -105,7 +105,7 @@ const Card = ({ movie, type = 'portrait', className, onClick, showGenre = false 
   if (type === 'landscape') {
     return (
       <div className={twMerge(
-        "relative flex-none w-[280px] lg:w-[450px] h-[158px] lg:h-[253px] cursor-pointer group overflow-hidden rounded-[12px] shadow-xl transition-all duration-300 hover:scale-105 hover:z-10",
+        "relative flex-none w-[280px] lg:w-[450px] h-[158px] lg:h-[253px] cursor-pointer group overflow-hidden rounded-[12px] shadow-xl transition-all duration-300 hover:scale-105 z-10",
         className
       )}>
         {(!backdropUrl || imgError) ? (
@@ -118,7 +118,7 @@ const Card = ({ movie, type = 'portrait', className, onClick, showGenre = false 
               onError={() => setImgError(true)}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity" />
           </>
         )}
         <div className="absolute top-3 left-3 lg:top-4 lg:left-4 bg-orange-400 px-1.5 py-0.5 lg:px-2 lg:py-1 rounded-[4px] z-20">
@@ -135,7 +135,7 @@ const Card = ({ movie, type = 'portrait', className, onClick, showGenre = false 
   if (type === 'episode') {
     return (
       <div className={twMerge(
-        "flex-none w-[200px] lg:w-[252px] cursor-pointer group rounded-[12px] overflow-hidden bg-slate-800 shadow-md transition-all duration-300 hover:scale-105 hover:z-10",
+        "flex-none w-[200px] lg:w-[252px] cursor-pointer group rounded-[12px] overflow-hidden bg-slate-800 shadow-md transition-all duration-300 hover:scale-105 z-10",
         className
       )}>
         <div className="relative h-[112px] lg:h-[142px] overflow-hidden">

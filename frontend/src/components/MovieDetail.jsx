@@ -225,14 +225,14 @@ const MovieDetail = () => {
                       icon={faHeart}
                       className="text-xl text-slate-400 group-hover:text-red-500 transition-colors"
                     />
-                    <span className="text-xs text-slate-400 mt-1">관심</span>
+                    <span className="text-xs text-slate-400 mt-1 group-hover:text-slate-300">관심</span>
                   </div>
                   <div className="flex flex-col items-center cursor-pointer group">
                     <FontAwesomeIcon
                       icon={faShareNodes}
                       className="text-xl text-slate-400 group-hover:text-primary transition-colors"
                     />
-                    <span className="text-xs text-slate-400 mt-1">공유</span>
+                    <span className="text-xs text-slate-400 mt-1 group-hover:text-slate-300">공유</span>
                   </div>
                 </div>
               </div>
@@ -323,7 +323,7 @@ const MovieDetail = () => {
                 <h3 className="text-[32px] font-bold text-slate-200">
                   사용자 리뷰
                 </h3>
-                <button className="text-orange-400 text-sm font-medium">
+                <button className="text-slate-400 text-sm font-medium">
                   더보기
                 </button>
               </div>

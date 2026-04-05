@@ -17,13 +17,13 @@
   - Shadow: `x:0, y:20, blur:50, color:#000000 (50%)`
   - Backdrop Blur: `24px`
 - **Interactions**:
-  - **Menu Item**: Default(`#FB923C`), Focus(`#CBD5E1`)
+  - **Menu Item**: Default(`#CBD5E1`), Focus(`#FB923C`)
 
 ## 3. Cards & Content Rows
 - **Radius**: `0.75rem (12px)`
-- **Portrait Card**: `256px x 384px`, Hover 시 `scale(1.02)`, `duration: 300ms`
-- **Landscape Card**: `450px x 253px`, Hover 시 `scale(1.05)`
-- **Episode Card**: `252px x 198px`, Hover 시 컨테이너 `scale(1.05)`, 이미지 `scale(1.05)`
+- **Portrait Card**: `256px x 384px`, Hover 시 `scale(1.02)`, `bg-white/10 오버레이`, `duration: 300ms`
+- **Landscape Card**: `450px x 253px`, Hover 시 `scale(1.05)`, `duration: 300ms`
+- **Episode Card**: `252px x 198px`, Hover 시 컨테이너 `scale(1.05)`, `duration: 300ms` `이미지 scale(1.05)`, `duration: 300ms`, `bg-black/40 오버레이`
 
 ## 4. Button System
 모든 버튼은 Hover 시 `bg-white/10` 오버레이, Active 시 `scale-95` 효과를 적용한다.
@@ -59,11 +59,18 @@
   - Title: `Slate-400, 14px, Medium`
   - Subtitle: `Slate-500, 12px, Medium`
 
+## 8. Icons/text
+  - **Icons/text base**: Default(`Slate-400`), Hover(`Slate-300`)
+  - **Mylist & Share Icons/text**: 
+    - text base : Default(`Slate-400`), Hover(`Slate-300`)
+    - Mylist Icon : Default(`Slate-400`), Hover(`Red-500`)
+    - Share Icon : Default(`Slate-400`), Hover(`orange-400`)
+
 ## 타이포그라피 (Typography)
 제목 (Title):
 - **H1**: 72px / Bold / 행간 72px
 - **H2**: 48px / SemiBold / 행간 48px
-- **H3**: 32px / Bold / 행간 36px
+- **H3**: 32px / Bold / 행간 40px
 
 본문 (Body):
 - **Body/18**: 18px / Medium / 행간 28px

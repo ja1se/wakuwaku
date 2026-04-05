@@ -12,7 +12,7 @@
 ### A. Discover & Lists (Main Rows)
 | Category | Endpoint | Parameters / Strategy |
 | :--- | :--- | :--- |
-| **Popular** | `/discover/tv` | `sort_by=popularity.desc` |
+| **Popular** | `/discover/tv` | `sort_by=popularity.desc&first_air_date.gte=2020-01-01` |
 | **On Air** | `/discover/tv` | `sort_by=first_air_date.desc` |
 | **Suspense** | `/discover/tv` | `with_genres=80` |
 | **On Rated** | `/discover/tv` | `sort_by=vote_average.desc&vote_count.gte=200` |

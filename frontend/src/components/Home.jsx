@@ -74,27 +74,31 @@ export default function Home() {
           <Spinner />
         </div>
       ) : (
-        <div className="relative z-20 pt-24 space-y-4 pb-24">
+        <div className="relative z-20 pt-20 space-y-4 pb-20">
           <ContentRow
             title="오늘의 인기 차트"
             movies={popular}
             type="portrait"
+            className="mb-4"
           />
           <ContentRow
             title="따끈한 신작 라인업"
             movies={onAir}
             type="landscape"
             showLogo={true}
+            className="mb-16"
           />
           <ContentRow
             title="숨 가쁜 긴장감, 정적을 깨는 반전!"
             movies={suspense}
             type="portrait"
+            className="mb-4"
           />
           <ContentRow
             title="뜨거운 숨결, 프로의 세계"
             movies={career}
             type="portrait"
+            className="mb-4"
           />
           <ContentRow
             title="한 끼의 식사에 담긴 삶의 맛과 다정한 위로"
