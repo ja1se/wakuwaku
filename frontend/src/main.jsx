@@ -8,7 +8,6 @@ import MovieDetail from './components/MovieDetail';
 import Search from './components/Search';
 import Category from './components/Category';
 import ErrorPage from './components/ErrorPage';
-import Ai from './components/Ai';
 import Mypage from './components/Mypage';
 
 const router = createBrowserRouter([
@@ -36,10 +35,6 @@ const router = createBrowserRouter([
       {
         path: "category/:type",
         element: <Category />,
-      },
-      {
-        path: "ai",
-        element: <Ai />,
       },
       {
         path: "*",

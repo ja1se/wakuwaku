@@ -8,27 +8,30 @@ import { TMDB_IMAGE_BASE } from '../api/tmdbService';
 // type → 한글 타이틀 + 설명 매핑
 const CATEGORY_META = {
   popular: {
-    title: '요즘 뜨는 인기작',
+    sub: '인기 차트',
+    title: '오늘의 인기 차트',
     description: '지금 가장 많은 사람들이 열광하는 일드를 모았습니다.',
   },
   onair: {
-    title: '오늘 방영 작품',
+    sub: '따끈 신작',
+    title: '갓 방영 시작! 따끈한 신작 라인업',
     description: '지금 이 순간에도 방영 중인 따끈따끈한 작품들.',
   },
   toprated: {
-    title: '와쿠와쿠 화제작',
+    sub: '와쿠와쿠 화제작',
+    title: '와쿠와쿠가 엄선한 부동의 명작',
     description: '높은 평점과 뜨거운 찬사를 받은 검증된 명작들.',
   },
   suspense: {
-    title: '심장을 쫄깃하게 하는 서스펜스',
-    description: '손에 땀을 쥐게 만드는 긴장감 넘치는 작품들.',
+    title: '숨 가쁜 긴장감, 정적을 깨는 반전!',
+    description: '정적을 깨는 반전, 마지막까지 눈을 뗄 수 없는 치밀한 기록.',
   },
   career: {
-    title: '전문직들의 세계, 직업물',
+    title: '뜨거운 숨결, 프로의 세계',
     description: '자신의 분야에서 최선을 다하는 사람들의 뜨거운 이야기.',
   },
   gourmet: {
-    title: '맛있는 이야기, 고메 시리즈',
+    title: '한 끼의 식사에 담긴 삶의 맛과 다정한 위로',
     description: '음식과 삶이 어우러진 힐링 미식 드라마 모음.',
   },
 };
@@ -111,7 +114,7 @@ export default function Category() {
         <div className="relative z-10 h-full flex flex-col justify-end px-6 lg:px-14 pb-8 lg:pb-14 max-w-[1280px] mx-auto">
           {/* 카테고리 뱃지 */}
           <span className="inline-flex items-center bg-orange-400/20 text-orange-400 text-[10px] lg:text-xs font-bold px-2 py-0.5 lg:px-3 lg:py-1 rounded-[4px] w-fit mb-3 lg:mb-4 tracking-widest uppercase">
-            {meta.title}
+            {meta.sub}
           </span>
 
           <h1 className="text-[32px] lg:text-[48px] font-bold leading-tight text-white mb-2 lg:mb-3">
@@ -136,7 +139,7 @@ export default function Category() {
         {/* 섹션 헤더 */}
         <div className="flex items-center justify-between mb-8 lg:mb-10">
           <h2 className="text-2xl lg:text-[32px] font-bold text-slate-100">
-            {meta.title}
+            전체 보기
           </h2>
           <span className="text-slate-500 text-xs lg:text-sm">
             {currentPage} / {totalPages || 1} 페이지
@@ -156,6 +159,7 @@ export default function Category() {
                   movie={movie}
                   type="portrait"
                   className="aspect-[2/3] object-cover"
+                  showGenre={type === 'toprated'}
                 />
               </div>
             ))}

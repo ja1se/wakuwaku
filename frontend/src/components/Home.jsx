@@ -76,28 +76,28 @@ export default function Home() {
       ) : (
         <div className="relative z-20 pt-24 space-y-4 pb-24">
           <ContentRow
-            title="요즘 뜨는 인기작"
+            title="오늘의 인기 차트"
             movies={popular}
             type="portrait"
           />
           <ContentRow
-            title="오늘 방영 작품"
+            title="따끈한 신작 라인업"
             movies={onAir}
             type="landscape"
             showLogo={true}
           />
           <ContentRow
-            title="심장을 쫄깃하게 하는 서스펜스"
+            title="숨 가쁜 긴장감, 정적을 깨는 반전!"
             movies={suspense}
             type="portrait"
           />
           <ContentRow
-            title="전문직들의 세계, 직업물"
+            title="뜨거운 숨결, 프로의 세계"
             movies={career}
             type="portrait"
           />
           <ContentRow
-            title="맛있는 이야기, 고메 시리즈"
+            title="한 끼의 식사에 담긴 삶의 맛과 다정한 위로"
             movies={gourmet}
             type="portrait"
           />

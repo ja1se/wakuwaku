@@ -51,7 +51,6 @@ frontend/
 │   │   ├── ContentRow.jsx   ← 드라마 목록 섹션 (3종류)
 │   │   └── Ui.jsx           ← 공통 UI 컴포넌트
 │   │   └── ReviewArea.jsx   ← 리뷰 영역
-│   │   └── Ai.jsx           ← 와쿠와쿠 Ai 영역
 │   │   └── Mypage.jsx       ← 마이페이지 영역
 │   ├── App.jsx              ← 레이아웃 + 데이터 로딩
 │   ├── index.css            ← Tailwind + 폰트 설정

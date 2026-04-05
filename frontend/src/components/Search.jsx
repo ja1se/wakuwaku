@@ -3,8 +3,6 @@ import { getRecommendations } from '../services/api';
 import { tmdbService } from '../api/tmdbService';
 import { SearchForm, Spinner, Badge } from './Ui';
 import Card from './Card';
-import Nav from './Nav';
-import Footer from './Footer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faArrowTrendUp } from '@fortawesome/free-solid-svg-icons';
 import { twMerge } from 'tailwind-merge';
@@ -73,8 +71,6 @@ const Search = () => {
 
   return (
     <div className="bg-slate-950 min-h-screen flex flex-col items-center relative w-full overflow-x-hidden">
-      <Nav />
-      
       <main className="flex flex-col gap-20 items-center max-w-[1280px] w-full pt-36 pb-20 px-6">
         {/* 검색 섹션 (Figma: search-section) */}
         <div className="flex flex-col items-center w-full max-w-[788px] gap-4">
@@ -157,8 +153,6 @@ const Search = () => {
           )}
         </section>
       </main>
-
-      <Footer />
     </div>
   );
 };

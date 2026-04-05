@@ -4,7 +4,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faVideo } from '@fortawesome/free-solid-svg-icons';
 import { twMerge } from 'tailwind-merge';
 
-const Card = ({ movie, type = 'portrait', className, onClick }) => {
+// TMDB TV 장르 ID 맵 (주요 장르 위주)
+const GENRE_MAP = {
+  80: '서스펜스',
+  96: '미스터리',
+  18: '드라마',
+  35: '코미디',
+  10759: '액션',
+  10765: '판타지',
+  10766: '로맨스',
+  99: '다큐멘터리',
+  10764: '리얼리티',
+};
+
+const Card = ({ movie, type = 'portrait', className, onClick, showGenre = false }) => {
   const [imgError, setImgError] = useState(false);
 
   const title = movie.name || movie.original_name || movie.title;
@@ -13,6 +26,19 @@ const Card = ({ movie, type = 'portrait', className, onClick }) => {
   const backdropUrl = (movie.backdrop_path || movie.still_path) 
     ? `${TMDB_IMAGE_BASE.BACKDROP}${movie.backdrop_path || movie.still_path}` 
     : null;
+
+  // 장르 텍스트 추출 로직
+  const getGenreText = () => {
+    // 1. 이미 genres 객체 배열이 있는 경우 (getDetails 등 상세 호출 데이터)
+    if (movie.genres && movie.genres.length > 0) {
+      return movie.genres[0].name;
+    }
+    // 2. genre_ids 배열만 있는 경우 (discover 등 목록 호출 데이터)
+    if (movie.genre_ids && movie.genre_ids.length > 0) {
+      return GENRE_MAP[movie.genre_ids[0]] || '드라마';
+    }
+    return '드라마';
+  };
 
   const FallbackUI = ({ isLandscape = false }) => (
     <div className={twMerge(
@@ -53,7 +79,7 @@ const Card = ({ movie, type = 'portrait', className, onClick }) => {
             />
           )}
           {/* Darkening Overlay on Hover */}
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
 
         {/* Text Area */}
@@ -64,7 +90,11 @@ const Card = ({ movie, type = 'portrait', className, onClick }) => {
           <div className="flex items-center gap-2 text-slate-400 text-[10px] lg:text-sm">
             <span>{movie.first_air_date?.split('-')[0] || movie.release_date?.split('-')[0]}</span>
             <span>•</span>
-            <span>{movie.vote_average ? `${movie.vote_average.toFixed(1)} ⭐` : '평점 없음'}</span>
+            {showGenre ? (
+              <span>{movie.vote_average ? `${movie.vote_average.toFixed(1)} ⭐` : '평점 없음'}</span>
+            ) : (
+              <span>{getGenreText()}</span>
+            )}
           </div>
         </div>
       </div>
