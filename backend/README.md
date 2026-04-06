@@ -98,18 +98,11 @@ deactivate
 
 ```
 backend/
-├── app/
-│   ├── main.py
-│   └── routers/
-│       ├── tmdb.py
-│       └── ai.py
-├── services/
-│       ├── tmdb_client.py
-│       └── sentiment.py
-├── .env
-├── main.py
-├── requirements.txt
-└── README.md
+├── .env                # API Key (Hugging Face Token) 등 기밀 정보 관리
+├── main.py             # API 엔드포인트 정의 및 비즈니스 로직 (Core)
+├── data.json           # 추천 시스템의 기반이 되는 드라마 메타데이터
+├── requirements.txt    # 의존성 패키지 명세 (FastAPI, Requests 등)
+└── README.md           # 서버 실행 방법 및 API 문서화
 ```
 
 ---

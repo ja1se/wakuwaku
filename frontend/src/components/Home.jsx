@@ -22,7 +22,7 @@ export default function Home() {
             playsInline
             className="absolute inset-0 w-full h-full object-cover pointer-events-none"
           >
-            <source src="/kuku1.mp4" type="video/mp4" />
+            <source src="/kuku-video.mp4" type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/40 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#020617]/60 via-transparent to-transparent" />
