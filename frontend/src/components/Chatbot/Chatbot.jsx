@@ -41,7 +41,7 @@ const Chatbot = ({ onClose }) => {
       setMessages(prev => [...prev, response.data]);
     } catch (error) {
       setMessages(prev => [...prev, { 
-        text: "죄송해요, 쿠쿠가 잠시 생각에 빠졌나 봐요. 다시 말씀해 주시겠어요?", 
+        text: "죄송해요, 쿠쿠가 잠시 생각에 빠졌나 봐요...😿 다시 말씀해 주시겠어요?", 
         sender: 'bot' 
       }]);
     } finally {
@@ -50,22 +50,22 @@ const Chatbot = ({ onClose }) => {
   };
 
   return (
-    <div className="animate-slide-up fixed bottom-6 right-6 w-[360px] h-[580px] bg-[#0f172a80] rounded-[25px] flex flex-col shadow-2xl overflow-hidden z-[100] border border-slate-800">
+    <div className="animate-slide-up fixed bottom-6 right-6 w-[360px] h-[580px] bg-orange-50/90 rounded-[25px] flex flex-col shadow-2xl overflow-hidden z-[100]">
       {/* Header */}
-      <div className="px-5 py-4 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+      <div className="px-5 py-4 bg-gradient-to-r from-orange-300 to-orange-400 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Profile className="size-8" />
+          <Profile className="w-[48px] h-[48px]" />
           <div className="flex flex-col">
-            <span className="text-sm font-bold text-white">WAKUWAKU AI 가이드</span>
+            <span className="text-sm font-bold text-white">쿠쿠 님이 접속 중입니다.</span>
             <div className="flex items-center gap-1">
               <div className="size-1.5 bg-green-500 rounded-full" />
-              <span className="text-[10px] text-slate-400">온라인</span>
+              <span className="text-[10px] text-white">온라인</span>
             </div>
           </div>
         </div>
         <button 
           onClick={onClose}
-          className="text-slate-400 cursor-pointer hover:text-white transition-colors p-1"
+          className="text-white cursor-pointer hover:text-orange-100 transition-colors p-1"
         >
           <FontAwesomeIcon icon={faXmark} className="text-xl" />
         </button>
@@ -74,7 +74,7 @@ const Chatbot = ({ onClose }) => {
       {/* Message Area */}
       <div 
         ref={scrollRef}
-        className="flex-1 overflow-y-auto p-4 no-scrollbar bg-[#0f172a80]"
+        className="flex-1 overflow-y-auto p-4 no-scrollbar bg-orange-600/70"
       >
         <MessageList 
           messages={messages} 
@@ -82,18 +82,18 @@ const Chatbot = ({ onClose }) => {
         />
       </div>
       {isLoading && (
-          <div className="flex justify-start animate-pulse">
-            <div className="bg-slate-800 text-slate-400 text-xs px-4 py-2 rounded-full">
+          <div className="flex justify-start px-4 pb-2 animate-pulse">
+            <div className="bg-orange-100/50 text-orange-800 text-xs px-4 py-2 rounded-full">
               쿠쿠가 생각 중...
             </div>
           </div>
         )}
         
       {/* Footer / Input Area */}
-      <div className="p-4 bg-slate-900 border-t border-slate-800">
+      <div className="p-4 bg-orange-300">
         <ChatbotForm 
           onSend={(text) => handleSendMessage(text)} 
-          className="w-full bg-slate-800 border-none"
+          className="w-full bg-orange-100 border-orange-400 focus-within:border-orange-500"
         />
       </div>
     </div>

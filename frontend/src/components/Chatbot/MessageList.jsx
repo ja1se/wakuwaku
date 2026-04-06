@@ -19,11 +19,11 @@ const MessageList = ({ messages, onTagClick }) => {
             >
               {/* Bot Icon */}
               {isBot && (
-                <div className="flex w-8 h-8 items-center justify-center rounded-full bg-slate-900 shrink-0 overflow-hidden">
+                <div className="flex w-8 h-8 items-center justify-center rounded-full bg-orange-300 shrink-0 overflow-hidden shadow-sm">
                   <img
                     src="/assets/type=Kuku.svg"
                     alt="bot"
-                    className="w-6 h-full object-contain"
+                    className="w-6 h-full object-contain brightness-0 invert"
                   />
                 </div>
               )}
@@ -33,8 +33,8 @@ const MessageList = ({ messages, onTagClick }) => {
                 className={twMerge(
                   "animate-pop-in px-4 py-3 text-sm font-medium leading-[1.4] transition-all",
                   isBot
-                    ? "bg-slate-900 text-slate-50 rounded-bl-[16px] rounded-br-[16px] rounded-tr-[16px]"
-                    : "bg-orange-400 text-white rounded-bl-[16px] rounded-br-[16px] rounded-tl-[16px]",
+                    ? "bg-orange-300 text-slate-50 rounded-bl-[16px] rounded-br-[16px] rounded-tr-[16px]"
+                    : "bg-orange-500 text-white rounded-bl-[16px] rounded-br-[16px] rounded-tl-[16px]",
                 )}
               >
                 {message.text}
@@ -49,8 +49,8 @@ const MessageList = ({ messages, onTagClick }) => {
                     onClick={() => onTagClick && onTagClick(tag)}
                     className={twMerge(
                       "px-3 py-1.5 text-[11px] font-bold tracking-tight rounded-full transition-all",
-                      "bg-slate-900/40 border border-orange-400/30 text-white",
-                      "hover:bg-orange-400 hover:border-orange-400 active:scale-95",
+                      "bg-orange-300/50 border border-white/30 text-white",
+                      "hover:bg-white/10 hover:border-white/50 active:scale-95",
                     )}
                   >
                     #{tag}

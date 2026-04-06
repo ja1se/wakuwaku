@@ -155,18 +155,18 @@ export const ChatbotForm = ({ className, onSend }) => {
   return (
     <form 
       onSubmit={handleSubmit}
-      className={twMerge("bg-slate-800 border-2 border-slate-900 rounded-[12px] flex items-center px-4 py-2 gap-2 w-full focus-within:border-orange-400 transition-all", className)}
+      className={twMerge("bg-orange-100 border-2 border-orange-400 rounded-[12px] flex items-center px-4 py-2 gap-2 w-full focus-within:border-orange-500 transition-all", className)}
     >
       <input 
         type="text" 
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder="메시지를 입력하세요..."
-        className="bg-transparent border-none outline-none text-slate-200 text-sm flex-1 placeholder:text-slate-600 py-2"
+        className="bg-transparent border-none outline-none text-slate-600 text-sm flex-1 placeholder:text-slate-400 py-2"
       />
       <button 
         type="submit"
-        className="bg-orange-400 text-slate-950 w-8 h-8 rounded-[8px] flex items-center justify-center cursor-pointer hover:bg-orange-300 active:scale-90 transition-all shrink-0"
+        className="bg-orange-400 text-white w-8 h-8 rounded-[8px] flex items-center justify-center cursor-pointer hover:bg-orange-300 active:scale-90 transition-all shrink-0"
       >
         <FontAwesomeIcon icon={faPaperPlane} size="sm" />
       </button>
