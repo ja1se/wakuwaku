@@ -32,7 +32,7 @@ const Chatbot = ({ onClose }) => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/chat", {
+      const response = await fetch("https://wakuwaku-7c4b.onrender.com/chat-recommend", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ source_text: text }), // 백엔드 필드명 확인 필요

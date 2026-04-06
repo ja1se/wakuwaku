@@ -77,10 +77,10 @@ export default function Nav() {
         </div>
         <div className="flex items-center gap-4">
           <Link to="/search" className="p-1">
-            <img src={imgSearchIcon} alt="Search" className="w-7 h-7" />
+            <img src={imgSearchIcon} alt="Search" className="w-7 h-7 opacity-70 hover:opacity-100 hover:brightness-100 transition-all duration-200" />
           </Link>
           <Link to="/mypage" className="p-1">
-            <img src={imgMypageIcon} alt="My Page" className="w-7 h-7" />
+            <img src={imgMypageIcon} alt="My Page" className="w-7 h-7 opacity-70 hover:opacity-100 hover:brightness-100 transition-all duration-200" />
           </Link>
         </div>
       </div>
