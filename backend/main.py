@@ -5,6 +5,7 @@ from pydantic import BaseModel
 from dotenv import load_dotenv
 import requests
 import json
+from huggingface_hub import InferenceClient
 
 load_dotenv()
 
@@ -18,10 +19,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-HUGGINGFACE_API_KEY = os.getenv("HF_TOKEN")
-MODEL_ID = "snunlp/KR-SBERT-V4-KLI-itc"
-API_URL = f"https://api-inference.huggingface.co/models/{MODEL_ID}"
-HF_HEADERS = {"Authorization": f"Bearer {HUGGINGFACE_API_KEY}"}
+client = InferenceClient(
+    model="jhgan/ko-sroberta-multitask",
+    token=os.getenv("HF_TOKEN")
+)
 
 with open("data.json", "r", encoding="utf-8") as f:
     DRAMA_DATA = json.load(f)
@@ -29,25 +30,21 @@ with open("data.json", "r", encoding="utf-8") as f:
 class RecommendRequest(BaseModel):
     source_text: str
 
+def get_similarity_scores(source_text: str) -> list:
+    sentences = [drama["description"] for drama in DRAMA_DATA]
+    scores = client.sentence_similarity(
+        sentence=source_text,
+        other_sentences=sentences
+    )
+    return scores
 
 # --- AI 추천 서치 페이지 ---
 @app.post("/recommend")
 async def get_recommendations(req: RecommendRequest):
-    sentences = [drama["description"] for drama in DRAMA_DATA]
-
-    payload = {
-        "inputs": {
-            "source_sentence": req.source_text,
-            "sentences": sentences
-        }
-    }
-
-    res = requests.post(API_URL, headers=HF_HEADERS, json=payload)
-
-    if res.status_code != 200:
-        raise HTTPException(status_code=500, detail="Hugging Face API 호출 실패")
-
-    scores = res.json()
+    try:
+        scores = get_similarity_scores(req.source_text)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"HF 에러: {str(e)}")
 
     results = []
     for i, score in enumerate(scores):
@@ -58,7 +55,6 @@ async def get_recommendations(req: RecommendRequest):
         })
 
     results.sort(key=lambda x: x["score"], reverse=True)
-
     return results[:10]
 
 
@@ -98,25 +94,23 @@ async def chat_recommend(req: RecommendRequest):
                 "tags": data["tags"]
             }
 
-    sentences = [drama["description"] for drama in DRAMA_DATA]
-    payload = {"inputs": {"source_sentence": user_text, "sentences": sentences}}
-
-    res = requests.post(API_URL, headers=HF_HEADERS, json=payload)
-    if res.status_code != 200:
-        raise HTTPException(status_code=500, detail="AI 호출 실패")
-
-    scores = res.json()
-
-    if not isinstance(scores, list):
-        raise HTTPException(status_code=500, detail="쿠쿠가 앞발을 다듬고 있습니다..🐾 잠시 후 다시 시도해주세요.")
+    try:
+        scores = get_similarity_scores(user_text)
+    except Exception as e:
+        error_msg = str(e)
+        if "loading" in error_msg:
+            raise HTTPException(status_code=503, detail="쿠쿠가 자리를 비웠습니다. 잠시 후 다시 시도해주세요.🐾")
+        raise HTTPException(status_code=500, detail=f"AI 서버 응답 오류: {error_msg}")
 
     results = []
     for i, score in enumerate(scores):
+        if i >= len(DRAMA_DATA): break
         results.append({
             "title": DRAMA_DATA[i]["title"],
             "score": score,
             "tags": DRAMA_DATA[i].get("tags", []),
         })
+
     results.sort(key=lambda x: x["score"], reverse=True)
     top = results[0]
 
