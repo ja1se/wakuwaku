@@ -19,7 +19,7 @@ const MessageList = ({ messages, onTagClick }) => {
             >
               {/* Bot Icon */}
               {isBot && (
-                <div className="flex w-8 h-8 items-center justify-center rounded-full bg-orange-300 shrink-0 overflow-hidden shadow-sm">
+                <div className="flex w-8 h-8 items-center justify-center rounded-full bg-orange-400 shrink-0 overflow-hidden shadow-sm">
                   <img
                     src="/assets/type=Kuku.svg"
                     alt="bot"
@@ -33,7 +33,7 @@ const MessageList = ({ messages, onTagClick }) => {
                 className={twMerge(
                   "animate-pop-in px-4 py-3 text-sm font-medium leading-[1.4] transition-all",
                   isBot
-                    ? "bg-orange-300 text-slate-50 rounded-bl-[16px] rounded-br-[16px] rounded-tr-[16px]"
+                    ? "bg-orange-400 text-slate-50 rounded-bl-[16px] rounded-br-[16px] rounded-tr-[16px]"
                     : "bg-orange-500 text-white rounded-bl-[16px] rounded-br-[16px] rounded-tl-[16px]",
                 )}
               >
@@ -49,7 +49,7 @@ const MessageList = ({ messages, onTagClick }) => {
                     onClick={() => onTagClick && onTagClick(tag)}
                     className={twMerge(
                       "px-3 py-1.5 text-[11px] font-bold tracking-tight rounded-full transition-all",
-                      "bg-orange-300/50 border border-white/30 text-white",
+                      "bg-white/20 border border-white/30 text-white",
                       "hover:bg-white/10 hover:border-white/50 active:scale-95",
                     )}
                   >

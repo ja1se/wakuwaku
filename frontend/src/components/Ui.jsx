@@ -162,11 +162,11 @@ export const ChatbotForm = ({ className, onSend }) => {
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder="메시지를 입력하세요..."
-        className="bg-transparent border-none outline-none text-slate-600 text-sm flex-1 placeholder:text-slate-400 py-2"
+        className="bg-transparent border-none outline-none text-white text-sm flex-1 placeholder:text-slate-400 py-2 focus:placeholder-transparent"
       />
       <button 
         type="submit"
-        className="bg-orange-400 text-white w-8 h-8 rounded-[8px] flex items-center justify-center cursor-pointer hover:bg-orange-300 active:scale-90 transition-all shrink-0"
+        className="bg-orange-400 text-white w-8 h-8 rounded-[8px] flex items-center justify-center cursor-pointer hover:bg-orange-300 active:scale-90 transition-all shrink-0placeholder-transparent" 
       >
         <FontAwesomeIcon icon={faPaperPlane} size="sm" />
       </button>

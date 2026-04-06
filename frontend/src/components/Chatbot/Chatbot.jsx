@@ -9,7 +9,7 @@ import './Chatbot.css';
 const Chatbot = ({ onClose }) => {
   const [messages, setMessages] = useState([
     { 
-      text: "안녕하세요! 와쿠와쿠 AI 가이드 쿠쿠입니다. 좋아하는 배우나 장르를 말씀해 주시면 꼬리에 꼬리를 무는 추천을 해드릴게요!", 
+      text: "반가워요~😺 와쿠와쿠 AI 가이드 쿠쿠예요! 좋아하는 배우나 장르를 말씀해 주시면 꼬리에 꼬리를 무는 추천을 해드려요.🐾", 
       sender: 'bot',
       tags: ["복수극", "먹방일드", "이시하라사토미"] // 초기 추천 태그
     }
@@ -50,9 +50,9 @@ const Chatbot = ({ onClose }) => {
   };
 
   return (
-    <div className="animate-slide-up fixed bottom-6 right-6 w-[360px] h-[580px] bg-orange-50/90 rounded-[25px] flex flex-col shadow-2xl overflow-hidden z-[100]">
+    <div className="animate-slide-up fixed bottom-6 right-6 w-[360px] h-[580px] rounded-[25px] flex flex-col shadow-2xl overflow-hidden z-[100]">
       {/* Header */}
-      <div className="px-5 py-4 bg-gradient-to-r from-orange-300 to-orange-400 flex items-center justify-between">
+      <div className="px-5 py-4 bg-slate-800/90 backdrop-blur-lg flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Profile className="w-[48px] h-[48px]" />
           <div className="flex flex-col">
@@ -74,7 +74,7 @@ const Chatbot = ({ onClose }) => {
       {/* Message Area */}
       <div 
         ref={scrollRef}
-        className="flex-1 overflow-y-auto p-4 no-scrollbar bg-orange-600/70"
+        className="flex-1 overflow-y-auto p-4 no-scrollbar bg-slate-700/80 backdrop-blur-lg border border-slate-700/50 shadow-2xl"
       >
         <MessageList 
           messages={messages} 
@@ -90,10 +90,10 @@ const Chatbot = ({ onClose }) => {
         )}
         
       {/* Footer / Input Area */}
-      <div className="p-4 bg-orange-300">
+      <div className="p-4 bg-slate-800/90 backdrop-blur-lg">
         <ChatbotForm 
           onSend={(text) => handleSendMessage(text)} 
-          className="w-full bg-orange-100 border-orange-400 focus-within:border-orange-500"
+          className="w-full bg-slate-600 border-slate-500 focus-within:border-orange-400"
         />
       </div>
     </div>
