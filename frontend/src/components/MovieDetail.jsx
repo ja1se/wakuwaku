@@ -77,7 +77,7 @@ const MovieDetail = () => {
   };
 
   if (loading)
-    return <Spinner full message="작품 정보를 불러오는 중입니다..." />;
+    return <Spinner full message="쿠쿠가 작품 정보를 불러오는 중...🐈" />;
   if (!drama)
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400">

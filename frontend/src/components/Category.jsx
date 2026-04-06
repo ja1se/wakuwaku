@@ -85,7 +85,7 @@ export default function Category() {
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-        <Spinner message="작품 목록을 불러오는 중..." />
+        <Spinner message="쿠쿠가 작품 목록을 불러오는 중...🐈" />
       </div>
     );
   }

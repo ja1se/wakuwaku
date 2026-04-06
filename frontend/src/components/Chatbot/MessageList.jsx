@@ -1,38 +1,63 @@
-// frontend/src/components/Chatbot/MessageList.jsx
-import React from 'react';
-import { twMerge } from 'tailwind-merge';
+import React from "react";
+import { twMerge } from "tailwind-merge";
 
-const MessageList = ({ messages }) => {
+const MessageList = ({ messages, onTagClick }) => {
   return (
     <div className="flex flex-col gap-4 w-full">
       {messages.map((message, index) => {
-        const isBot = message.sender === 'bot';
+        const isBot = message.sender === "bot";
         return (
-          <div 
-            key={index} 
+          <div
+            key={index}
             className={twMerge(
               "flex gap-2 max-w-[85%]",
-              isBot ? "self-start" : "self-end flex-row-reverse"
+              isBot ? "self-start flex-col" : "self-end flex-row-reverse",
             )}
           >
-            {/* Bot Icon */}
-            {isBot && (
-              <div className="flex w-8 h-8 items-center justify-center rounded-full bg-slate-900 shrink-0 overflow-hidden">
-                <img src="/assets/type=Kuku.svg" alt="bot" className="w-6 h-full object-contain" />
+            <div
+              className={twMerge("flex gap-2", isBot ? "" : "flex-row-reverse")}
+            >
+              {/* Bot Icon */}
+              {isBot && (
+                <div className="flex w-8 h-8 items-center justify-center rounded-full bg-slate-900 shrink-0 overflow-hidden">
+                  <img
+                    src="/assets/type=Kuku.svg"
+                    alt="bot"
+                    className="w-6 h-full object-contain"
+                  />
+                </div>
+              )}
+
+              {/* Message Bubble */}
+              <div
+                className={twMerge(
+                  "animate-pop-in px-4 py-3 text-sm font-medium leading-[1.4] transition-all",
+                  isBot
+                    ? "bg-slate-900 text-slate-50 rounded-bl-[16px] rounded-br-[16px] rounded-tr-[16px]"
+                    : "bg-orange-400 text-white rounded-bl-[16px] rounded-br-[16px] rounded-tl-[16px]",
+                )}
+              >
+                {message.text}
+              </div>
+            </div>
+            {/* 꼬리에 꼬리를 무는 추천 태그 (봇 메시지이면서 태그가 있을 때만 표시) */}
+            {isBot && message.tags && message.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2 ml-10 mt-1 animate-fade-in">
+                {message.tags.map((tag, i) => (
+                  <button
+                    key={i}
+                    onClick={() => onTagClick && onTagClick(tag)}
+                    className={twMerge(
+                      "px-3 py-1.5 text-[11px] font-bold tracking-tight rounded-full transition-all",
+                      "bg-slate-900/40 border border-orange-400/30 text-white",
+                      "hover:bg-orange-400 hover:border-orange-400 active:scale-95",
+                    )}
+                  >
+                    #{tag}
+                  </button>
+                ))}
               </div>
             )}
-
-            {/* Message Bubble */}
-            <div 
-              className={twMerge(
-                "animate-pop-in px-4 py-3 text-sm font-medium leading-[1.4] transition-all",
-                isBot 
-                  ? "bg-slate-900 text-slate-50 rounded-bl-[16px] rounded-br-[16px] rounded-tr-[16px]" 
-                  : "bg-orange-400 text-white rounded-bl-[16px] rounded-br-[16px] rounded-tl-[16px]"
-              )}
-            >
-              {message.text}
-            </div>
           </div>
         );
       })}

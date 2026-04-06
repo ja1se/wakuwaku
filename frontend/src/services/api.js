@@ -1,3 +1,6 @@
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+// AI 추천 서치 페이지용 (리스트 반환)
 export const getRecommendations = async (searchText) => {
   try {
     // 백엔드 서버 주소 (FastAPI 기본 주소)
@@ -20,4 +23,14 @@ export const getRecommendations = async (searchText) => {
     console.error("데이터 로드 실패:", error);
     return [];
   }
+};
+
+// 챗봇용 (메시지 객체 반환)
+export const getChatResponse = async (messageText) => {
+  const response = await fetch(`${API_BASE_URL}/chat-recommend`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ source_text: messageText }), // 키 이름 통일
+  });
+  return await response.json();
 };

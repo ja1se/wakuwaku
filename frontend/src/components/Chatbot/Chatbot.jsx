@@ -8,30 +8,45 @@ import './Chatbot.css';
 
 const Chatbot = ({ onClose }) => {
   const [messages, setMessages] = useState([
-    { text: "안녕하세요! 무엇을 도와드릴까요? 보고 싶은 영화나 시리즈 추천이 필요하신가요?", sender: 'bot' }
+    { 
+      text: "안녕하세요! 와쿠와쿠 AI 가이드 쿠쿠입니다. 좋아하는 배우나 장르를 말씀해 주시면 꼬리에 꼬리를 무는 추천을 해드릴게요!", 
+      sender: 'bot',
+      tags: ["복수극", "먹방일드", "이시하라사토미"] // 초기 추천 태그
+    }
   ]);
+  const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef(null);
 
-  // 자동 스크롤
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages]);
 
-  const handleSendMessage = (text) => {
+  const handleSendMessage = async (text) => {
     if (!text.trim()) return;
 
-    // 사용자 메시지 추가
-    setMessages(prev => [...prev, { text, sender: 'user' }]);
+    // 1. 사용자 메시지 추가
+    const userMsg = { text, sender: 'user' };
+    setMessages(prev => [...prev, userMsg]);
+    setIsLoading(true);
 
-    // 간단한 자동 응답 시뮬레이션
-    setTimeout(() => {
+    try {
+      // 2. 백엔드 AI 호출
+      const response = await axios.post("http://127.0.0.1:8000/chat-recommend", {
+        message: text
+      });
+
+      // 3. AI 응답 추가 (텍스트 + 꼬리물기 태그)
+      setMessages(prev => [...prev, response.data]);
+    } catch (error) {
       setMessages(prev => [...prev, { 
-        text: "좋은 질문입니다! 관련해서 가장 인기 있는 일드를 추천해 드릴게요.", 
+        text: "죄송해요, 쿠쿠가 잠시 생각에 빠졌나 봐요. 다시 말씀해 주시겠어요?", 
         sender: 'bot' 
       }]);
-    }, 1000);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -61,9 +76,19 @@ const Chatbot = ({ onClose }) => {
         ref={scrollRef}
         className="flex-1 overflow-y-auto p-4 no-scrollbar bg-[#0f172a80]"
       >
-        <MessageList messages={messages} />
+        <MessageList 
+          messages={messages} 
+          onTagClick={(tag) => handleSendMessage(`${tag} 추천해줘`)} 
+        />
       </div>
-
+      {isLoading && (
+          <div className="flex justify-start animate-pulse">
+            <div className="bg-slate-800 text-slate-400 text-xs px-4 py-2 rounded-full">
+              쿠쿠가 생각 중...
+            </div>
+          </div>
+        )}
+        
       {/* Footer / Input Area */}
       <div className="p-4 bg-slate-900 border-t border-slate-800">
         <ChatbotForm 
