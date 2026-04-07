@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react';
 import { useParams, useNavigate, useOutletContext } from 'react-router';
-import { twMerge } from 'tailwind-merge';
 import Card from './Card';
 import { Pagination, Spinner } from './Ui';
 import { TMDB_IMAGE_BASE } from '../api/tmdbService';

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Card from './Card';
 import { twMerge } from 'tailwind-merge';
 import { Swiper, SwiperSlide } from 'swiper/react';

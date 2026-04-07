@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import { tmdbService, TMDB_IMAGE_BASE } from "../api/tmdbService";
 import Card from "./Card";

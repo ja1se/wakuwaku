@@ -1,6 +1,6 @@
 import tmdbApi from './axios';
 
-// UI Data Mapping Rules (명세 4)
+// UI Data Mapping Rules
 export const TMDB_IMAGE_BASE = {
   POSTER: 'https://image.tmdb.org/t/p/w500',
   BACKDROP: 'https://image.tmdb.org/t/p/original',

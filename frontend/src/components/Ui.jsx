@@ -3,7 +3,6 @@ import { twMerge } from 'tailwind-merge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faPlay, 
-  faMagnifyingGlass,
   faPaperPlane, 
   faChevronDown, 
   faChevronUp,

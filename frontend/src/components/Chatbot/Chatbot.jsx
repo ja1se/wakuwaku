@@ -1,5 +1,4 @@
-// frontend/src/components/Chatbot/Chatbot.jsx
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import MessageList from "./MessageList";
 import { Profile, ChatbotForm } from "../Ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

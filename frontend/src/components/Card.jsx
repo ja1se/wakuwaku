@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { TMDB_IMAGE_BASE } from "../api/tmdbService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faVideo } from "@fortawesome/free-solid-svg-icons";

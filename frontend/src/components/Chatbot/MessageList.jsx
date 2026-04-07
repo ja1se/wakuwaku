@@ -1,4 +1,3 @@
-import React from "react";
 import { twMerge } from "tailwind-merge";
 
 const MessageList = ({ messages, onTagClick }) => {
@@ -40,7 +39,7 @@ const MessageList = ({ messages, onTagClick }) => {
                 {message.text}
               </div>
             </div>
-            {/* 꼬리에 꼬리를 무는 추천 태그 (봇 메시지이면서 태그가 있을 때만 표시) */}
+            {/* 꼬리에 꼬리를 무는 추천 태그 */}
             {isBot && message.tags && message.tags.length > 0 && (
               <div className="flex flex-wrap gap-2 ml-10 mt-1 animate-fade-in">
                 {message.tags.map((tag, i) => (
