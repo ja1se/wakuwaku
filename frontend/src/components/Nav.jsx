@@ -3,8 +3,8 @@ import { Link, useNavigate, useLocation } from "react-router";
 import { twMerge } from "tailwind-merge";
 
 const imgWakUwAku = "/assets/logo.svg";
-const imgSearchIcon = "/assets/icon-search.svg";
-const imgMypageIcon = "/assets/icon-mypage.svg";
+const imgSearchIcon = "/assets/type=Search, state=Default.svg";
+const imgMypageIcon = "/assets/type=Mypage, state=Default.svg";
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -66,7 +66,7 @@ export default function Nav() {
                     "text-base font-medium transition-colors duration-200",
                     isActive
                       ? "text-primary"
-                      : "text-slate-300 hover:text-white",
+                      : "text-slate-300 hover:text-slate-200",
                   )}
                 >
                   {label}
@@ -77,10 +77,10 @@ export default function Nav() {
         </div>
         <div className="flex items-center gap-4">
           <Link to="/search" className="p-1">
-            <img src={imgSearchIcon} alt="Search" className="w-7 h-7 opacity-70 hover:opacity-100 hover:brightness-100 transition-all duration-200" />
+            <img src={imgSearchIcon} alt="Search" className="w-7 h-7 opacity-70 hover:opacity-100 hover:brightness-100 transition-all duration-300" />
           </Link>
           <Link to="/mypage" className="p-1">
-            <img src={imgMypageIcon} alt="My Page" className="w-7 h-7 opacity-70 hover:opacity-100 hover:brightness-100 transition-all duration-200" />
+            <img src={imgMypageIcon} alt="My Page" className="w-7 h-7 opacity-70 hover:opacity-100 hover:brightness-100 transition-all duration-300" />
           </Link>
         </div>
       </div>

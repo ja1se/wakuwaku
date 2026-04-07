@@ -38,26 +38,6 @@ def get_similarity_scores(source_text: str) -> list:
     )
     return scores
 
-# --- AI 추천 서치 페이지 ---
-@app.post("/recommend")
-async def get_recommendations(req: RecommendRequest):
-    try:
-        scores = get_similarity_scores(req.source_text)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"HF 에러: {str(e)}")
-
-    results = []
-    for i, score in enumerate(scores):
-        results.append({
-            "id": DRAMA_DATA[i]["id"],
-            "title": DRAMA_DATA[i]["title"],
-            "score": round(score * 100, 1)
-        })
-
-    results.sort(key=lambda x: x["score"], reverse=True)
-    return results[:10]
-
-
 # --- 챗봇 가이드용 ---
 @app.post("/chat-recommend")
 async def chat_recommend(req: RecommendRequest):

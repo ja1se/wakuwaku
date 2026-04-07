@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { getRecommendations } from '../services/api';
 import { tmdbService } from '../api/tmdbService';
-import { SearchForm, Spinner, Badge } from './Ui';
+import { SearchForm, Spinner } from './Ui';
 import Card from './Card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faArrowTrendUp } from '@fortawesome/free-solid-svg-icons';
@@ -13,6 +12,7 @@ const Search = () => {
   const [userInput, setUserInput] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isSearched, setIsSearched] = useState(false);
   
   const recentSearches = ['아이 러브 유', '리갈하이', '고독한 미식가', '언내추럴'];
   const trendingSearches = ['앙팡', '내 남편과 결혼해줘', '고독한 미식가', '첫사랑 DOGs', '로맨틱 어나니머스'];
@@ -22,26 +22,12 @@ const Search = () => {
     if (!searchQuery.trim()) return;
 
     setLoading(true);
+    setIsSearched(true);
     try {
-      // 1. AI 문장 유사도 기반 추천 시스템 호출
-      const recommendData = await getRecommendations(searchQuery);
-      
-      // 2. 추천된 ID들로 TMDB 상세 정보 가져오기
-      const fullResults = await Promise.all(
-        recommendData.map(async (item) => {
-          try {
-            const movieDetails = await tmdbService.getDetails(item.id);
-            return { ...movieDetails, ai_score: item.score };
-          } catch (err) {
-            console.error(`Failed to fetch details for ID ${item.id}:`, err);
-            return null;
-          }
-        })
-      );
-
-      setResults(fullResults.filter(Boolean));
+      const response = await tmdbService.search(searchQuery);
+      setResults(response.results || []);
     } catch (error) {
-      console.error("추천 검색 실패:", error);
+      console.error("검색 실패:", error);
       setResults([]);
     } finally {
       setLoading(false);
@@ -60,7 +46,7 @@ const Search = () => {
       setLoading(true);
       try {
         const response = await tmdbService.getPopular();
-        setResults(response.results.slice(0, 10));
+        setResults(response.results.slice(0, 12));
       } catch (error) {
         console.error("초기 데이터 로드 실패:", error);
       } finally {
@@ -72,14 +58,14 @@ const Search = () => {
 
   return (
     <div className="bg-slate-950 min-h-screen flex flex-col items-center relative w-full overflow-x-hidden">
-      <main className="flex flex-col gap-20 items-center max-w-[1280px] w-full pt-36 pb-20 px-6">
+      <main className="flex flex-col gap-20 items-center max-w-[1280px] w-full pt-36 pb-20 px-14">
         {/* 검색 섹션 (Figma: search-section) */}
         <div className="flex flex-col items-center w-full max-w-[788px] gap-4">
           <SearchForm 
             value={userInput}
             onChange={setUserInput}
             onSearch={handleSearch}
-            placeholder="기분, 장르, 분위기 등 무엇이든 입력해 보세요!"
+            placeholder="작품명, 배우, 장르를 검색해보세요!"
             className="w-full"
           />
         </div>
@@ -128,32 +114,37 @@ const Search = () => {
           </div>
         </section>
 
-        {/* 결과 섹션 (Figma: Section/1) */}
+        {/* 결과 섹션 */}
         <section className="w-full">
+          {/* 섹션 헤더 */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-slate-100">
+              {isSearched ? `'${userInput}' 검색 결과` : '인기 드라마'}
+            </h2>
+            {!loading && results.length > 0 && (
+              <p className="text-slate-500 text-sm mt-1">총 {results.length}개 작품</p>
+            )}
+          </div>
+
           {loading ? (
             <div className="flex justify-center py-20">
-              <Spinner message="AI가 당신의 취향을 분석하고 있습니다..." />
+              <Spinner message="검색 중..." />
             </div>
           ) : results.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 place-items-center">
               {results.map((movie) => (
-                <div key={movie.id} className="relative">
-                  <Card 
-                    movie={movie} 
-                    type="portrait" 
-                    onClick={() => navigate(`/tv/${movie.id}`)}
-                  />
-                  {movie.ai_score && (
-                    <Badge variant="medium" className="absolute top-2 left-2 lg:top-3 lg:left-3 shadow-lg z-20 scale-75 lg:scale-100 origin-top-left">
-                      AI Match {movie.ai_score}%
-                    </Badge>
-                  )}
-                </div>
+                <Card
+                  key={movie.id}
+                  movie={movie}
+                  type="portrait"
+                  onClick={() => navigate(`/tv/${movie.id}`)}
+                />
               ))}
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center py-20 text-slate-500">
-              <p className="text-lg italic">일치하는 추천 결과가 없습니다.</p>
+            <div className="flex flex-col items-center justify-center py-20 gap-4 text-slate-500">
+              <p className="text-lg font-bold">검색 결과가 없습니다</p>
+              <p className="text-sm">다른 키워드로 검색해보세요</p>
             </div>
           )}
         </section>

@@ -11,7 +11,7 @@ const Chatbot = ({ onClose }) => {
     {
       text: "반가워요~😺 와쿠와쿠 AI 가이드 쿠쿠예요! 좋아하는 배우나 장르를 말씀해 주시면 꼬리에 꼬리를 무는 추천을 해드려요.🐾",
       sender: "bot",
-      tags: ["복수극", "먹방일드", "이시하라사토미"], // 초기 추천 태그
+      tags: ["복수극", "먹방일드", "이시하라 사토미"], // 초기 추천 태그
     },
   ]);
   const [isLoading, setIsLoading] = useState(false);
@@ -32,11 +32,14 @@ const Chatbot = ({ onClose }) => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("https://wakuwaku-7c4b.onrender.com/chat-recommend", {
+      const [response] = await Promise.all([
+      fetch("https://wakuwaku-7c4b.onrender.com/chat-recommend", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ source_text: text }), // 백엔드 필드명 확인 필요
-      });
+        body: JSON.stringify({ source_text: text }),
+      }),
+      new Promise((resolve) => setTimeout(resolve, 3000)) // 최소 3초 대기
+    ]);
       if (!response.ok) throw new Error("서버 응답 오류");
       const data = await response.json();
       setMessages((prev) => [...prev, data]);
@@ -83,15 +86,15 @@ const Chatbot = ({ onClose }) => {
           messages={messages}
           onTagClick={(tag) => handleSendMessage(`${tag} 추천해줘`)}
         />
-      </div>
-      {isLoading && (
-        <div className="flex justify-start px-4 pb-2 animate-pulse">
+        {isLoading && (
+        <div className="flex justify-start px-4">
           <div className="bg-orange-100/50 text-orange-800 text-xs px-4 py-2 rounded-full">
-            쿠쿠가 생각 중...
+            <span className="animate-pulse">쿠쿠가 생각 중...</span>
           </div>
         </div>
       )}
-
+      </div>
+      
       {/* Footer / Input Area */}
       <div className="p-4 bg-slate-800/90 backdrop-blur-lg">
         <ChatbotForm

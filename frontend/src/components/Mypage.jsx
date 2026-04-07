@@ -9,7 +9,6 @@ import {
   faCircleExclamation,
   faPen
 } from '@fortawesome/free-solid-svg-icons';
-import { Profile } from './Ui';
 
 export default function Mypage() {
   const quickLinks = [

@@ -43,11 +43,6 @@ const ContentRow = ({ title, fetchFunction, movies: initialMovies, type = 'portr
   if (loading) return <div className="px-14 py-10 text-slate-500 animate-pulse">데이터를 불러오는 중...</div>;
   if (!movies || movies.length === 0) return null;
 
-  // 카드 타입별 설정
-  const getSpaceBetween = () => {
-    return 20; // 20px (gap-5)
-  };
-
   return (
     <section className={twMerge("px-14 py-8 relative group/row", className)}>
       {/* Header 영역 */}
@@ -61,20 +56,18 @@ const ContentRow = ({ title, fetchFunction, movies: initialMovies, type = 'portr
       </div>
 
       {/* Swiper 가로 슬라이드 영역 */}
-      <div className="relative -mx-14 px-14">
+      <div className="overflow-hidden py-1">
         <Swiper
           slidesPerView={'auto'}
-          spaceBetween={getSpaceBetween()}
+          spaceBetween={20}
+          slidesOffsetAfter={56}
           className="!overflow-visible"
         >
           {movies.map((movie) => (
-            <SwiperSlide 
-              key={movie.id} 
-              className="!w-auto"
-            >
-              <Card 
-                movie={movie} 
-                type={type} 
+            <SwiperSlide key={movie.id} className="!w-auto">
+              <Card
+                movie={movie}
+                type={type}
                 onClick={() => navigate(`/tv/${movie.id}`)}
               />
             </SwiperSlide>

@@ -124,7 +124,7 @@ export const SearchForm = ({
   return (
     <div className={twMerge("relative w-full max-w-[768px] group", className)}>
       <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-500 z-10 group-focus-within:text-orange-400 transition-colors">
-        <FontAwesomeIcon icon={faMagnifyingGlass} size="lg" />
+        <img src="../assets/type=Search, state=Default.svg" alt="검색" className="brightness-70 transition-all group-focus-within:brightness-100"/>
       </div>
       <div className="bg-slate-800 border-2 border-slate-700/50 rounded-[12px] flex items-center p-2 pl-14 focus-within:border-orange-400 transition-all shadow-lg">
         <input 
