@@ -32,7 +32,7 @@ python.exe -m pip install --upgrade pip
 python -m venv .venv
 
 # 활성화 (Linux / macOS)
-source venv/bin/activate
+source .venv/bin/activate
 
 # 활성화 (Windows)
 .venv\Scripts\activate
