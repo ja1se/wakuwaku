@@ -1,7 +1,7 @@
 # TMDB API Specification: Japanese Drama Service
 
 ## 1. Global Request Configuration
-모든 API 호출 시 아래 파라미터를 기본값으로 강제 적용한다.
+모든 API 호출 시 아래 파라미터를 기본값으로 강제 적용한다. (`axios.js` 설정)
 - `with_origin_country`: JP
 - `with_original_language`: ja
 - `without_genres`: 16 (Animation 제외 필수)
@@ -12,14 +12,15 @@
 ### A. Discover & Lists (Main Rows)
 | Category | Endpoint | Parameters / Strategy |
 | :--- | :--- | :--- |
-| **Popular** | `/discover/tv` | `sort_by=popularity.desc&first_air_date.gte=2020-01-01` |
-| **On Air** | `/discover/tv` | `sort_by=first_air_date.desc` |
+| **Popular** | `/discover/tv` | `sort_by=popularity.desc&first_air_date.gte=2025-01-01&include_null_first_air_dates=false` |
+| **On Air** | `/discover/tv` | `sort_by=first_air_date.desc&vote_count.gte=5` |
+| **Top Rated** | `/discover/tv` | `sort_by=vote_average.desc&vote_count.gte=200` |
 | **Suspense** | `/discover/tv` | `with_genres=80` |
-| **On Rated** | `/discover/tv` | `sort_by=vote_average.desc&vote_count.gte=200` |
-| **Similar Contents** | `/tv/{id}/similar` | Contextual Recommendation |
+| **Similar Contents** | `/discover/tv` | **Custom Strategy**: 현재 작품의 장르 ID들을 가져온 뒤, `/discover/tv`를 통해 `with_genres={genre_ids}`, `with_original_language=ja`, `sort_by=popularity.desc`, `vote_count.gte=10` 조건으로 검색하여 연관 드라마를 추천한다. |
 
 ### B. Career & Gourmet/Cooking (Manual Curation)
 요리/미식 카테고리는 키워드 필터링 대신 아래 ID 리스트를 사용하여 개별 호출(`Promise.all`)한다.
+
 **Career (직업물)**
 - **언내추럴**: 75701
 - **중쇄를 찍자!**: 67504
@@ -38,8 +39,9 @@
 - **Detail Info**: `/tv/{series_id}` (타이틀, 별점, 줄거리 등)
 - **Cast**: `/tv/{series_id}/credits` (배우 이름, 프로필 이미지)
 - **Video**: `/tv/{series_id}/videos` (유튜브 예고편 링크 추출)
-- **Similar Content**: `/tv/{series_id}/similar` (추천 콘텐츠)
+- **Search**: `/search/tv` (검색어 기반 검색)
 - **Reviews**: `/tv/{series_id}/reviews` (사용자 반응)
+    - **params**: `language: 'en-US', 'jp-JP': 'ja-JP'`
     - **author**: 작성자 닉네임
     - **content**: 리뷰 본문
     - **created_at**: 작성 날짜
