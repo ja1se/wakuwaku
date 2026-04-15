@@ -17,6 +17,7 @@ import {
   PlaceholderMessage,
   Accordion,
   Pagination,
+  VideoModal,
 } from "./Ui.jsx";
 import ContentRow from "./ContentRow";
 
@@ -32,6 +33,9 @@ const MovieDetail = () => {
   const [activeSeason, setActiveSeason] = useState(1);
   const [activeTab, setActiveTab] = useState("episode"); // 'episode', 'review', 'similar'
   const [currentPage, setCurrentPage] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [trailerKey, setTrailerKey] = useState(null);
+
   useEffect(() => {
     window.scrollTo(0, 0); // 페이지 로드 시 스크롤을 맨 위로!
   }, [id]);
@@ -39,12 +43,13 @@ const MovieDetail = () => {
     const fetchInitialData = async () => {
       try {
         setLoading(true);
-        const [detailRes, creditsRes, reviewsRes, similarRes] =
+        const [detailRes, creditsRes, reviewsRes, similarRes, videoRes] =
           await Promise.all([
             tmdbService.getDetails(id),
             tmdbService.getCredits(id),
             tmdbService.getReviews(id),
             tmdbService.getSimilar(id),
+            tmdbService.getVideos(id),
           ]);
 
         // axios interceptor가 response.data를 반환하므로 response가 곧 데이터임
@@ -52,6 +57,14 @@ const MovieDetail = () => {
         setCredits(creditsRes);
         setReviews(reviewsRes.results || []);
         setSimilar(similarRes.results || []);
+
+        // 예고편 찾기 (YouTube의 Trailer 타입 우선)
+        const trailer = videoRes.results?.find(
+          (v) =>
+            v.site === "YouTube" &&
+            (v.type === "Trailer" || v.type === "Teaser"),
+        );
+        setTrailerKey(trailer?.key || null);
 
         // 초기 에피소드 데이터 (시즌 1) 로드
         const episodeRes = await tmdbService.getEpisodes(id, 1);
@@ -110,7 +123,7 @@ const MovieDetail = () => {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-200">
       {/* Hero Section */}
-      <section className="relative w-full h-[785px] overflow-hidden">
+      <section className="relative w-full min-h-[785px] overflow-hidden">
         {/* Background Image with Blur and Gradient */}
         <div className="absolute inset-0">
           <img
@@ -122,9 +135,21 @@ const MovieDetail = () => {
         </div>
 
         {/* Content Grid */}
-        <div className="relative z-10 max-w-[1280px] mx-auto px-8 pt-[176px] grid grid-cols-12 gap-12">
+        <div
+          className={twMerge(
+            "relative z-10 max-w-[1280px] mx-auto px-8 pt-[100px] lg:pt-[176px]",
+            "grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12",
+            "justify-items-center lg:justify-items-start",
+          )}
+        >
           {/* Poster */}
-          <div className="col-span-4 shadow-[0px_25px_50px_-12px_rgba(0,0,0,0.25)] rounded-[12px] overflow-hidden aspect-[2/3]">
+          <div
+            className={twMerge(
+              "col-span-10 lg:col-span-4",
+              "shadow-[0px_25px_50px_-12px_rgba(0,0,0,0.25)] rounded-[12px] overflow-hidden",
+              "w-full max-w-[350px] lg:max-w-none aspect-[2/3]",
+            )}
+          >
             <img
               src={posterUrl}
               alt={drama.name}
@@ -149,7 +174,7 @@ const MovieDetail = () => {
               </div>
             </div>
 
-            <h1 className="text-[72px] font-bold leading-tight mb-6 text-slate-100">
+            <h1 className="text-[48px] font-bold leading-tight mb-6 text-slate-100 lg:text-[72px]">
               {drama.name}
             </h1>
 
@@ -183,9 +208,10 @@ const MovieDetail = () => {
                   size="large"
                   showIcon={true}
                   icon={faPlay}
-                  onClick={() => navigate(`/tv/${id}`)} // 클릭 시 이동
+                  onClick={() => setIsModalOpen(true)}
+                  disabled={!trailerKey}
                 >
-                  예고편 보기
+                  {trailerKey ? "예고편 보기" : "예고편 없음"}
                 </Button>
 
                 {/* 시즌 선택 버튼 */}
@@ -225,14 +251,18 @@ const MovieDetail = () => {
                       icon={faHeart}
                       className="text-xl text-slate-400 group-hover:text-red-500 transition-colors"
                     />
-                    <span className="text-xs text-slate-400 mt-1 group-hover:text-slate-300">관심</span>
+                    <span className="text-xs text-slate-400 mt-1 group-hover:text-slate-300">
+                      관심
+                    </span>
                   </div>
                   <div className="flex flex-col items-center cursor-pointer group">
                     <FontAwesomeIcon
                       icon={faShareNodes}
                       className="text-xl text-slate-400 group-hover:text-primary transition-colors"
                     />
-                    <span className="text-xs text-slate-400 mt-1 group-hover:text-slate-300">공유</span>
+                    <span className="text-xs text-slate-400 mt-1 group-hover:text-slate-300">
+                      공유
+                    </span>
                   </div>
                 </div>
               </div>
@@ -241,8 +271,15 @@ const MovieDetail = () => {
         </div>
       </section>
 
+      {/* Video Modal */}
+      <VideoModal
+        videoKey={trailerKey}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+
       {/* Tabs Section (Figma 3:72) */}
-      <section className="max-w-[1280px] mx-auto px-14">
+      <section className="max-w-[1280px] mx-auto px-14 pt-20 lg:pt-4">
         {/* Tab Buttons (Figma 3:74) */}
         <div className="flex items-center border-b border-slate-800 mb-14 px-8">
           <button

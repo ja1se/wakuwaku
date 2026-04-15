@@ -7,7 +7,8 @@ import {
   faChevronDown, 
   faChevronUp,
   faChevronLeft,
-  faChevronRight
+  faChevronRight,
+  faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 
 //1. Button Components (Variants: primary, secondary, Sizes: large, medium, small)
@@ -332,6 +333,45 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }) => {
       >
         <FontAwesomeIcon icon={faChevronRight} className="text-sm cursor-pointer" />
       </button>
+    </div>
+  );
+};
+
+// 11. Video Modal Component
+export const VideoModal = ({ videoKey, isOpen, onClose }) => {
+  if (!isOpen || !videoKey) return null;
+
+  return (
+    <div 
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 animate-in fade-in duration-300"
+      onClick={onClose}
+    >
+      <div 
+        className="relative w-full max-w-5xl aspect-video mx-4 bg-black rounded-xl shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button 
+          onClick={onClose}
+          className={twMerge(
+            "absolute top-497/500 left-1/2 -translate-x-1/2",
+            "z-50 flex flex-col items-center justify-center gap-2",
+            "w-10 h-10 rounded-full bg-slate-800/20 hover:bg-slate-800/60 backdrop-blur-sm",
+            "text-slate-300 hover:text-slate-200 transition-all duration-300 cursor-pointer group"
+          )}
+          aria-label="Close modal"
+        >
+          <FontAwesomeIcon icon={faXmark} className="text-2xl" />
+        </button>
+        <div className="w-full h-full rounded-xl overflow-hidden">
+          <iframe
+            src={`https://www.youtube.com/embed/${videoKey}?autoplay=1`}
+            title="YouTube video player"
+            className="w-full h-full border-none"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        </div>
+      </div>
     </div>
   );
 };
