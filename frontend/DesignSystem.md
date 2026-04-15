@@ -66,6 +66,23 @@
     - Mylist Icon : Default(`Slate-400`), Hover(`Red-500`)
     - Share Icon : Default(`Slate-400`), Hover(`orange-400`)
 
+## 9. Trailer Modal (Video Modal)
+- **Overlay**:
+  - Background: `rgba(0, 0, 0, 0.9)` (Black 90%)
+  - Effects: `animate-in fade-in`, `duration: 300ms`
+- **Container**:
+  - Aspect Ratio: `16:9 (aspect-video)`
+  - Max-width: `1024px (max-w-5xl)`
+  - Background: `#000000` (Black)
+  - Radius: `0.75rem (12px)`
+  - Shadow: `2xl`
+- **Close Button**:
+  - Position: Center Bottom (`absolute top-[99.4%] left-1/2 -translate-x-1/2`)
+  - Background: `rgba(30, 41, 59, 0.2)` (Slate-800 20% + Backdrop Blur)
+  - Hover: `rgba(30, 41, 59, 0.6)` (Slate-800 60%)
+  - Icon Color: `Slate-300`, Hover(`Slate-200`)
+  - Radius: `full`
+
 ## 타이포그라피 (Typography)
 제목 (Title):
 - **H1**: 72px / Bold / 행간 72px
